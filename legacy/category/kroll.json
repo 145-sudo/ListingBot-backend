@@ -1,0 +1,212 @@
+[
+  {
+    "category": "Clothing",
+    "sub_category": "Tops",
+    "url": "https://www.krollcorp.com/clothing/tops.html"
+  },
+  {
+    "category": "Clothing",
+    "sub_category": "Bottoms",
+    "url": "https://www.krollcorp.com/clothing/bottoms.html"
+  },
+  {
+    "category": "Clothing",
+    "sub_category": "Baselayer",
+    "url": "https://www.krollcorp.com/clothing/baselayer.html"
+  },
+  {
+    "category": "Clothing",
+    "sub_category": "Outerwear",
+    "url": "https://www.krollcorp.com/clothing/outerwear.html"
+  },
+  {
+    "category": "Clothing",
+    "sub_category": "Footwear",
+    "url": "https://www.krollcorp.com/clothing/footwear.html"
+  },
+  {
+    "category": "Clothing",
+    "sub_category": "Gloves",
+    "url": "https://www.krollcorp.com/clothing/gloves.html"
+  },
+  {
+    "category": "Clothing",
+    "sub_category": "Headwear",
+    "url": "https://www.krollcorp.com/clothing/headwear.html"
+  },
+  {
+    "category": "Clothing",
+    "sub_category": "Clothing Accessories",
+    "url": "https://www.krollcorp.com/clothing/clothing-accessories.html"
+  },
+  {
+    "category": "Tactical & Duty Gear",
+    "sub_category": "Bags & Packs",
+    "url": "https://www.krollcorp.com/tactical-duty-gear/bags-packs.html"
+  },
+  {
+    "category": "Tactical & Duty Gear",
+    "sub_category": "Holsters",
+    "url": "https://www.krollcorp.com/tactical-duty-gear/holsters.html"
+  },
+  {
+    "category": "Tactical & Duty Gear",
+    "sub_category": "Lights",
+    "url": "https://www.krollcorp.com/tactical-duty-gear/lights.html"
+  },
+  {
+    "category": "Tactical & Duty Gear",
+    "sub_category": "Pouches",
+    "url": "https://www.krollcorp.com/tactical-duty-gear/pouches.html"
+  },
+  {
+    "category": "Tactical & Duty Gear",
+    "sub_category": "Restraints",
+    "url": "https://www.krollcorp.com/tactical-duty-gear/restraints.html"
+  },
+  {
+    "category": "Tactical & Duty Gear",
+    "sub_category": "Batons",
+    "url": "https://www.krollcorp.com/tactical-duty-gear/batons.html"
+  },
+  {
+    "category": "Tactical & Duty Gear",
+    "sub_category": "Body Armor & Protection",
+    "url": "https://www.krollcorp.com/tactical-duty-gear/body-armor-protection.html"
+  },
+  {
+    "category": "Tactical & Duty Gear",
+    "sub_category": "Electronics & Communication",
+    "url": "https://www.krollcorp.com/tactical-duty-gear/electronics-communication.html"
+  },
+  {
+    "category": "Tactical & Duty Gear",
+    "sub_category": "First Aid",
+    "url": "https://www.krollcorp.com/tactical-duty-gear/first-aid.html"
+  },
+  {
+    "category": "Tactical & Duty Gear",
+    "sub_category": "Training & Defense",
+    "url": "https://www.krollcorp.com/tactical-duty-gear/training-defense.html"
+  },
+  {
+    "category": "Tactical & Duty Gear",
+    "sub_category": "Traffic Safety",
+    "url": "https://www.krollcorp.com/tactical-duty-gear/traffic-safety.html"
+  },
+  {
+    "category": "Tactical & Duty Gear",
+    "sub_category": "Forensics & CSI",
+    "url": "https://www.krollcorp.com/tactical-duty-gear/forensics-csi.html"
+  },
+  {
+    "category": "Shooting & Accessories",
+    "sub_category": "Ammunition",
+    "url": "https://www.krollcorp.com/shooting-accessories/ammunition.html"
+  },
+  {
+    "category": "Shooting & Accessories",
+    "sub_category": "Optics",
+    "url": "https://www.krollcorp.com/shooting-accessories/optics.html"
+  },
+  {
+    "category": "Shooting & Accessories",
+    "sub_category": "Shooting & Range Equipment",
+    "url": "https://www.krollcorp.com/shooting-accessories/shooting-range-equipment.html"
+  },
+  {
+    "category": "Shooting & Accessories",
+    "sub_category": "On Gun & Other Accessories",
+    "url": "https://www.krollcorp.com/shooting-accessories/on-gun-other-accessories.html"
+  },
+  {
+    "category": "Shooting & Accessories",
+    "sub_category": "Cleaning",
+    "url": "https://www.krollcorp.com/shooting-accessories/cleaning.html"
+  },
+  {
+    "category": "Survival & Outdoor",
+    "sub_category": "Camping",
+    "url": "https://www.krollcorp.com/survival-outdoor/camping.html"
+  },
+  {
+    "category": "Survival & Outdoor",
+    "sub_category": "Coolers & Drinkware",
+    "url": "https://www.krollcorp.com/survival-outdoor/coolers-drinkware.html"
+  },
+  {
+    "category": "Survival & Outdoor",
+    "sub_category": "Food & Food Storage",
+    "url": "https://www.krollcorp.com/survival-outdoor/food-food-storage.html"
+  },
+  {
+    "category": "Survival & Outdoor",
+    "sub_category": "Personal Defense",
+    "url": "https://www.krollcorp.com/survival-outdoor/personal-defense.html"
+  },
+  {
+    "category": "Survival & Outdoor",
+    "sub_category": "Prepper",
+    "url": "https://www.krollcorp.com/survival-outdoor/prepper.html"
+  },
+  {
+    "category": "Survival & Outdoor",
+    "sub_category": "Tools & Equipment",
+    "url": "https://www.krollcorp.com/survival-outdoor/tools-equipment.html"
+  },
+  {
+    "category": "Firearms",
+    "sub_category": "Pistols",
+    "url": "https://www.krollcorp.com/firearms/pistols.html"
+  },
+  {
+    "category": "Firearms",
+    "sub_category": "Rifles",
+    "url": "https://www.krollcorp.com/firearms/rifles.html"
+  },
+  {
+    "category": "Firearms",
+    "sub_category": "Revolvers",
+    "url": "https://www.krollcorp.com/firearms/revolvers.html"
+  },
+  {
+    "category": "Firearms",
+    "sub_category": "Shotguns",
+    "url": "https://www.krollcorp.com/firearms/shotguns.html"
+  },
+  {
+    "category": "Firearms",
+    "sub_category": "NFA & Class III",
+    "url": "https://www.krollcorp.com/firearms/nfa-class-iii.html"
+  },
+  {
+    "category": "Knives",
+    "sub_category": "Automatics",
+    "url": "https://www.krollcorp.com/knives/automatics.html"
+  },
+  {
+    "category": "Knives",
+    "sub_category": "Fixed",
+    "url": "https://www.krollcorp.com/knives/fixed.html"
+  },
+  {
+    "category": "Knives",
+    "sub_category": "Folding",
+    "url": "https://www.krollcorp.com/knives/folding.html"
+  },
+  {
+    "category": "Knives",
+    "sub_category": "Multi-Tools",
+    "url": "https://www.krollcorp.com/knives/multi-tools.html"
+  },
+  {
+    "category": "Knives",
+    "sub_category": "Sharpening Tools",
+    "url": "https://www.krollcorp.com/knives/sharpening-tools.html"
+  },
+  {
+    "category": "Knives",
+    "sub_category": "Other Blades & Accessories",
+    "url": "https://www.krollcorp.com/knives/other-blades-accessories.html"
+  }
+]
