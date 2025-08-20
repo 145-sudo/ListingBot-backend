@@ -10,7 +10,7 @@ from auth import authenticate_user, create_access_token, get_current_active_user
 from config import SheetName
 from database import create_tables, get_db
 from models.user import User
-from routers import wp
+from routers import wp, kroll
 from services.suppliers import fetch_only_supplier_products
 
 # Create database tables
@@ -36,7 +36,7 @@ app.add_middleware(
 # asyncio.create_task(get_wp_to_db(interval=300))  # Sync every 5 minutes
 
 # Fetch Only Supplier Products
-# asyncio.create_task(fetch_only_supplier_products(SheetName.KROLL.value))
+# asyncio.cc:\Users\TECHNEZO\Downloads\AutoProductList - Sheet1.csvreate_task(fetch_only_supplier_products(SheetName.KROLL.value))
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -67,3 +67,4 @@ async def read_users_me(current_user: User = Depends(get_current_active_user)):
 
 # Include WordPress router
 app.include_router(wp.router, tags=["WordPress"])
+app.include_router(kroll.router, tags=["Kroll"])
