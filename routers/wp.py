@@ -4,14 +4,40 @@ from models.wordpress import WordPressProduct
 from database import get_db
 
 router = APIRouter()
+              
 
 # WordPress endpoints
 @router.get("/wordpress/")
-async def get_wordpress_products(page: int = 1, limit: int = 100, db: Session = Depends(get_db)):
+async def get_wordpress_products(
+    page: int = 1,
+    limit: int = 100,
+    sort: str = "id",
+    order: str = "asc",
+    db: Session = Depends(get_db),
+):
     skip = (page - 1) * limit
-    products = db.query(WordPressProduct).offset(skip).limit(limit).all()
+    # Validate sort field
+    if not hasattr(WordPressProduct, sort):
+        raise HTTPException(status_code=400, detail=f"Invalid sort field: {sort}")
+    sort_column = getattr(WordPressProduct, sort)
+    # Determine order
+    if order.lower() == "desc":
+        sort_column = sort_column.desc()
+    else:
+        sort_column = sort_column.asc()
+    products = (
+        db.query(WordPressProduct).order_by(sort_column).offset(skip).limit(limit).all()
+    )
     total = db.query(WordPressProduct).count()
-    return {"data": products, "total": total, "page": page, "limit": limit}
+    return {
+        "data": products,
+        "total": total,
+        "page": page,
+        "limit": limit,
+        "sort": sort,
+        "order": order,
+    }
+
 
 @router.get("/wordpress/{wp_id}")
 async def get_wordpress_product(wp_id: int, db: Session = Depends(get_db)):
@@ -20,11 +46,13 @@ async def get_wordpress_product(wp_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="WordPress product not found")
     return product
 
+
 @router.post("/wordpress/sync")
 async def sync_wordpress_products(db: Session = Depends(get_db)):
     # result = periodic_sync(db)
     # return {"message": "WordPress products synced successfully", "success": result}
     return {"message": "WordPress products synced successfully", "success": True}
+
 
 @router.delete("/wordpress/{wp_id}")
 async def delete_wordpress_product(wp_id: int, db: Session = Depends(get_db)):
