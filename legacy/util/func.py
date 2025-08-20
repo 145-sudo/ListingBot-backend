@@ -1,13 +1,14 @@
 import logging
 
-from config import SheetName, SheetColumns
-from util.sheet import get_attribute
-from scraper.ssi import scrape_ssi_categories
-from scraper.kroll import scrape_kroll_categories
-from scraper.rothco import scrape_rothco_categories
-from util.gsheet import add_dropdown, update_sheet
-from util.wp import wcapi, get_store_products
-from util.file import load_json_from_dir
+import asyncio
+from legacy.config import SheetName, SheetColumns
+from legacy.util.sheet import get_attribute
+from legacy.scraper.ssi import scrape_ssi_categories
+from legacy.scraper.kroll import scrape_kroll_categories
+from legacy.scraper.rothco import scrape_rothco_categories
+from legacy.util.gsheet import add_dropdown, update_sheet
+from legacy.util.wp import wcapi, get_store_products
+from legacy.util.file import load_json_from_dir
 
 
 def normalize_name(name):
@@ -49,6 +50,29 @@ def fetch_supplier_products(spreadsheet, supplier_name: str):
         logging.error(f"Error fetching Kroll products: {e}")
         raise
 
+async def fetch_only_supplier_products(supplier_name: str, interval = 300):
+    try:
+        categories = load_json_from_dir(f"{supplier_name}.json")
+        logging.info(f"Fetched {len(categories)} categories of {supplier_name.title()}")
+
+        df = None
+        if supplier_name == SheetName.KROLL.value:
+            df = scrape_kroll_categories(categories)
+        elif supplier_name == SheetName.SSI.value:
+            df = scrape_ssi_categories(categories)
+        elif supplier_name == SheetName.ROTCHCO.value:
+            df = scrape_rothco_categories(categories)
+        else:
+            logging.error(f"Unknown supplier: {supplier_name}")
+        if df is not None:
+            # Update the table with this data of suuplier
+            pass
+             
+
+    except Exception as e:
+        logging.error(f"Error fetching Kroll products: {e}")
+        raise
+    await asyncio.sleep(interval)
 
 
 def sync_to_woocommerce(spreadsheet, supplier_name: str):

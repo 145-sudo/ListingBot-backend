@@ -79,4 +79,4 @@ def get_wp_to_db(interval: int = 300):
             status_code=500,
             detail=f"Error syncing WordPress products: {str(e)}"
         )
-        # await asyncio.sleep(interval)
+    # await asyncio.sleep(interval)

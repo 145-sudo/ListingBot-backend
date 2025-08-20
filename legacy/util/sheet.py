@@ -1,4 +1,4 @@
-from config import SheetName, SheetColumns
+from legacy.config import SheetName, SheetColumns
 
 
 def get_attribute(sheet_name: str, attribute_name: SheetColumns):

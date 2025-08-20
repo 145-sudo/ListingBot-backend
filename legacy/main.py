@@ -4,12 +4,12 @@ from time import sleep
 import schedule
 
 from config import ENVIRONMENT, SHEET_ID, SheetName
-from util.func import (
+from legacy.util.func import (
     fetch_supplier_products,
     fetch_woocommerce_products,
     monitor_sheet_changes,
 )
-from util.gsheet import get_spreadsheet
+from legacy.util.gsheet import get_spreadsheet
 
 # Configure logging to file
 logging.basicConfig(

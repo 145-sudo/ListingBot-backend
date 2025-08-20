@@ -1,3 +1,4 @@
+import asyncio
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from datetime import timedelta
@@ -5,6 +6,8 @@ from database import get_db, create_tables
 from sqlalchemy.orm import Session
 from auth import create_access_token, get_current_active_user
 from auth import authenticate_user
+from legacy.config import SheetName
+from legacy.util.func import fetch_only_supplier_products
 from models.user import User
 from fastapi.middleware.cors import CORSMiddleware
 from routers import wp
@@ -34,7 +37,8 @@ app.add_middleware(
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-
+# Fetch Only Supplier Products
+# asyncio.create_task(fetch_only_supplier_products(SheetName.KROLL.value))
 
 # Authentication endpoints
 @app.post("/token")

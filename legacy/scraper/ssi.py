@@ -1,7 +1,7 @@
 import pandas as pd
 from bs4 import BeautifulSoup, Tag
 
-from util.fetch import fetch_url
+from legacy.util.fetch import fetch_url
 
 base_url = "https://ssisports.net"
 

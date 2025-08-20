@@ -4,7 +4,7 @@ from time import sleep
 import pandas as pd
 from bs4 import BeautifulSoup
 
-from util.fetch import fetch_url
+from legacy.util.fetch import fetch_url
 
 
 def parse_html_kroll(html_content):
