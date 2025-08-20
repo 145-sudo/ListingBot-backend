@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from auth import create_access_token, get_current_active_user
 from auth import authenticate_user
 from legacy.config import SheetName
-from legacy.util.func import fetch_only_supplier_products
+# from legacy.util.func import fetch_only_supplier_products
 from models.user import User
 from fastapi.middleware.cors import CORSMiddleware
 from routers import wp

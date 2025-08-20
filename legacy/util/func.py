@@ -50,30 +50,6 @@ def fetch_supplier_products(spreadsheet, supplier_name: str):
         logging.error(f"Error fetching Kroll products: {e}")
         raise
 
-async def fetch_only_supplier_products(supplier_name: str, interval = 300):
-    try:
-        categories = load_json_from_dir(f"{supplier_name}.json")
-        logging.info(f"Fetched {len(categories)} categories of {supplier_name.title()}")
-
-        df = None
-        if supplier_name == SheetName.KROLL.value:
-            df = scrape_kroll_categories(categories)
-        elif supplier_name == SheetName.SSI.value:
-            df = scrape_ssi_categories(categories)
-        elif supplier_name == SheetName.ROTCHCO.value:
-            df = scrape_rothco_categories(categories)
-        else:
-            logging.error(f"Unknown supplier: {supplier_name}")
-        if df is not None:
-            # Update the table with this data of suuplier
-            pass
-             
-
-    except Exception as e:
-        logging.error(f"Error fetching Kroll products: {e}")
-        raise
-    await asyncio.sleep(interval)
-
 
 def sync_to_woocommerce(spreadsheet, supplier_name: str):
     logging.info("Syncing sheet to woocommerce")

@@ -1,5 +1,12 @@
 from enum import Enum
 
+
+# main
+SHEET_ID = "1ZE7BeE26iM43x_ympaIgOdl6lXWrwXg-PZZAKuIBEIw"
+
+# test
+# SHEET_ID = "1bSC1a80TZY3wRPIf07ixn8zE8g79wPn9dLt95RUho7c"
+
 # Environment: dev or prod
 ENVIRONMENT = "dev"
 
