@@ -1,5 +1,6 @@
 import asyncio
 from datetime import timedelta
+import logging
 
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -10,11 +11,27 @@ from auth import authenticate_user, create_access_token, get_current_active_user
 from config import SheetName
 from database import create_tables, get_db
 from models.user import User
-from routers import wp, kroll
+from routers import wp, kroll, ssi, rothco
 from services.suppliers import fetch_only_supplier_products
 
 # Create database tables
 create_tables()
+
+# Logging configuration
+# Configure logging to file
+logging.basicConfig(
+    filename="inventory_sync.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
+
+# Add logging to console
+console = logging.StreamHandler()
+console.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+console.setFormatter(formatter)
+logging.getLogger().addHandler(console)
+
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 1000
 
@@ -36,7 +53,8 @@ app.add_middleware(
 # asyncio.create_task(get_wp_to_db(interval=300))  # Sync every 5 minutes
 
 # Fetch Only Supplier Products
-# asyncio.cc:\Users\TECHNEZO\Downloads\AutoProductList - Sheet1.csvreate_task(fetch_only_supplier_products(SheetName.KROLL.value))
+# print("Fetching Kroll products...")
+# asyncio.create_task(fetch_only_supplier_products(SheetName.KROLL.value))
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -68,3 +86,5 @@ async def read_users_me(current_user: User = Depends(get_current_active_user)):
 # Include WordPress router
 app.include_router(wp.router, tags=["WordPress"])
 app.include_router(kroll.router, tags=["Kroll"])
+app.include_router(ssi.router, tags=["Ssi"])
+app.include_router(rothco.router, tags=["Rothco"])

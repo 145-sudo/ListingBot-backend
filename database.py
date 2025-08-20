@@ -26,6 +26,9 @@ def create_tables():
     from models.user import User  # noqa: F401
     from models.products import Product  # noqa
     from models.wordpress import WordPressProduct  # noqa
+    from models.ssi import SsiProduct  # noqa
+    from models.kroll import KrollProduct  # noqa
+    from models.rothco import RothcoProduct  # noqa
 
     # Now create all tables
     Base.metadata.create_all(bind=engine)

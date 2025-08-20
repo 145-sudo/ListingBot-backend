@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from models.kroll import KrollProduct
 from database import get_db
+from services.wordpress import sync_to_woocommerce
 
 router = APIRouter()
               
@@ -46,6 +47,15 @@ async def get_kroll_product(item_id: int, db: Session = Depends(get_db)):
     if product is None:
         raise HTTPException(status_code=404, detail="kroll product not found")
     return product
+
+
+@router.post("/kroll/{item_id}")
+async def upload_kroll_product(item_id: int, db: Session = Depends(get_db)):
+    product = db.query(KrollProduct).filter(KrollProduct.item_id == item_id).first()
+    if product is None:
+        raise HTTPException(status_code=404, detail="kroll product not found")
+    sync_to_woocommerce(product)
+    return {"message": "kroll product uploaded successfully", "product": product}
 
 
 @router.post("/kroll/sync")

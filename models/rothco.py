@@ -2,8 +2,8 @@ from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean
 from database import Base
 from datetime import datetime
 
-class KrollProduct(Base):
-    __tablename__ = "kroll_products"
+class RothcoProduct(Base):
+    __tablename__ = "rothco_products"
 
     id = Column(Integer, primary_key=True, index=True)
     sku = Column(String, index=True)
