@@ -115,7 +115,7 @@ def sync_to_woocommerce(data: KrollProduct | SsiProduct | RothcoProduct):
     # for row in data[1:]:
 
     # SKU BY SUPPLIER
-    sku = data.sku
+    sku = data.sku  
     price = data.price
     name = data.name
     description = data.description
@@ -133,34 +133,68 @@ def sync_to_woocommerce(data: KrollProduct | SsiProduct | RothcoProduct):
     logging.info(f"Syncing product sku:{sku} name:{name}")
     products = wcapi.get(f"products?sku={sku}").json()
     logging.debug(f"WP product response: {products}")
-
-    if len(products) > 0 and products[0].get("data", {}).get("status", None) != 401:
-        logging.info("product already exists")
-        product_id = products[0]["id"]
-        
-        logging.info("product is updating")
-        update_data = {
-            "stock_quantity": stock,
-        }
-        wcapi.put(f"products/{product_id}", update_data).json()
-        logging.info(f"Updated stock for product {sku}")
-    else:
-        logging.info("product not found, adding as new.")
-        # Create new product
-        create_data = {
-            "name": f"demo-{name}",
-            "type": "simple",
-            "sku": f"demo-{sku}",
-            "regular_price": str(price),
-            "stock_quantity": stock,
-            "status": status,
-            "description": description,
-            "categories": (
-                [{"name": category}, {"name": sub_category}]
-                if category and sub_category
-                else []
-            ),
-        }
-        response = wcapi.post("products", create_data).json()
-        logging.debug(f"WP product create response: {response}")
-        logging.info(f"Created new product {sku}")
+    # if len(products) > 0 and products[0].get("data", {}).get("status", None) != 401:
+    #     logging.info("product already exists")
+    #     product_id = products[0]["id"]
+    #     # Check if it's a variation
+    #     if row["Type"] == "variation":
+    #         parent_id = row["Parent ID"]
+    #         variations = wcapi.get(
+    #             f"products/{parent_id}/variations?sku={sku}"
+    #         ).json()
+    #         if variations:
+    #             variant_id = variations[0]["id"]
+    #             update_data = {
+    #                 "regular_price": str(price),
+    #                 "stock_quantity": stock,
+    #                 "status": status,
+    #             }
+    #             wcapi.put(
+    #                 f"products/{parent_id}/variations/{variant_id}", update_data
+    #             ).json()
+    #     else:
+    #         logging.info("product is updating")
+    #         update_data = {
+    #             "regular_price": str(price),
+    #             "stock_quantity": stock,
+    #             "status": status,
+    #         }
+    #         wcapi.put(f"products/{product_id}", update_data).json()
+    #     logging.info(f"Updated {row['Type']} {sku}")
+    # else:
+    #     logging.info("product not found, adding as new.")
+    #     # Handle new product/variation creation as needed
+    #     if row.get("Type", "") == "variation":
+    #         parent_id = row["Parent ID"]
+    #         # Create new variation
+    #         create_data = {
+    #             "sku": f"demo-{sku}",
+    #             "regular_price": str(price),
+    #             "stock_quantity": stock,
+    #             "status": status,
+    #             "description": f"demo-{description}",
+    #         }
+    #         wcapi.post(f"products/{parent_id}/variations", create_data).json()
+    #         logging.info(f"Created new variation {sku} under parent {parent_id}")
+    #     else:
+    
+    # Above commented code is for variation handling
+    # Create new product
+    create_data = {
+        "name": f"demo-{name}",
+        "type": "simple",
+        "sku": f"demo-{sku}",
+        # "sku": sku,
+        "regular_price": str(price),
+        "stock_quantity": stock,
+        "status": status,
+        "description": description,
+        "categories": (
+            [{"name": category}, {"name": sub_category}]
+            if category and sub_category
+            else []
+        ),
+    }
+    response = wcapi.post("products", create_data).json()
+    logging.debug(f"WP product create response: {response}")
+    logging.info(f"Created new product {sku}")
