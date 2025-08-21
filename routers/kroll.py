@@ -40,18 +40,18 @@ async def get_kroll_products(
     }
 
 
-@router.get("/kroll/{item_id}")
-async def get_kroll_product(item_id: int, db: Session = Depends(get_db)):
+@router.get("/kroll/{id}")
+async def get_kroll_product(id: int, db: Session = Depends(get_db)):
     
-    product = db.query(KrollProduct).filter(KrollProduct.item_id == item_id).first()
+    product = db.query(KrollProduct).filter(KrollProduct.id == id).first()
     if product is None:
         raise HTTPException(status_code=404, detail="kroll product not found")
     return product
 
 
-@router.post("/kroll/{item_id}")
-async def upload_kroll_product(item_id: int, db: Session = Depends(get_db)):
-    product = db.query(KrollProduct).filter(KrollProduct.item_id == item_id).first()
+@router.post("/kroll/{id}")
+async def upload_kroll_product(id: int, db: Session = Depends(get_db)):
+    product = db.query(KrollProduct).filter(KrollProduct.id == id).first()
     if product is None:
         raise HTTPException(status_code=404, detail="kroll product not found")
     sync_to_woocommerce(product)
@@ -65,9 +65,9 @@ async def sync_kroll_products(db: Session = Depends(get_db)):
     return {"message": "kroll products synced successfully", "success": True}
 
 
-@router.delete("/kroll/{item_id}")
-async def delete_kroll_product(item_id: int, db: Session = Depends(get_db)):
-    success = db.query(KrollProduct).filter(KrollProduct.item_id == item_id).delete()
+@router.delete("/kroll/{id}")
+async def delete_kroll_product(id: int, db: Session = Depends(get_db)):
+    success = db.query(KrollProduct).filter(KrollProduct.id == id).delete()
     if not success:
         raise HTTPException(status_code=404, detail="kroll product not found")
     return {"message": "kroll product deleted successfully"}

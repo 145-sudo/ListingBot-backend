@@ -39,10 +39,10 @@ async def get_rothco_products(
     }
 
 
-@router.get("/rothco/{item_id}")
-async def get_rothco_product(item_id: int, db: Session = Depends(get_db)):
+@router.get("/rothco/{id}")
+async def get_rothco_product(id: int, db: Session = Depends(get_db)):
     
-    product = db.query(RothcoProduct).filter(RothcoProduct.item_id == item_id).first()
+    product = db.query(RothcoProduct).filter(RothcoProduct.id == id).first()
     if product is None:
         raise HTTPException(status_code=404, detail="rothco product not found")
     return product
@@ -55,9 +55,9 @@ async def sync_rothco_products(db: Session = Depends(get_db)):
     return {"message": "rothco products synced successfully", "success": True}
 
 
-@router.delete("/rothco/{item_id}")
-async def delete_rothco_product(item_id: int, db: Session = Depends(get_db)):
-    success = db.query(RothcoProduct).filter(RothcoProduct.item_id == item_id).delete()
+@router.delete("/rothco/{id}")
+async def delete_rothco_product(id: int, db: Session = Depends(get_db)):
+    success = db.query(RothcoProduct).filter(RothcoProduct.id == id).delete()
     if not success:
         raise HTTPException(status_code=404, detail="rothco product not found")
     return {"message": "rothco product deleted successfully"}

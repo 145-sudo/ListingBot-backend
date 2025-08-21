@@ -39,10 +39,10 @@ async def get_ssi_products(
     }
 
 
-@router.get("/ssi/{item_id}")
-async def get_ssi_product(item_id: int, db: Session = Depends(get_db)):
+@router.get("/ssi/{id}")
+async def get_ssi_product(id: int, db: Session = Depends(get_db)):
     
-    product = db.query(SsiProduct).filter(SsiProduct.item_id == item_id).first()
+    product = db.query(SsiProduct).filter(SsiProduct.id == id).first()
     if product is None:
         raise HTTPException(status_code=404, detail="ssi product not found")
     return product
@@ -55,9 +55,9 @@ async def sync_ssi_products(db: Session = Depends(get_db)):
     return {"message": "ssi products synced successfully", "success": True}
 
 
-@router.delete("/ssi/{item_id}")
-async def delete_ssi_product(item_id: int, db: Session = Depends(get_db)):
-    success = db.query(SsiProduct).filter(SsiProduct.item_id == item_id).delete()
+@router.delete("/ssi/{id}")
+async def delete_ssi_product(id: int, db: Session = Depends(get_db)):
+    success = db.query(SsiProduct).filter(SsiProduct.id == id).delete()
     if not success:
         raise HTTPException(status_code=404, detail="ssi product not found")
     return {"message": "ssi product deleted successfully"}

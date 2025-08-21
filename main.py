@@ -13,6 +13,7 @@ from database import create_tables, get_db
 from models.user import User
 from routers import wp, kroll, ssi, rothco
 from services.suppliers import fetch_only_supplier_products
+# from legacy.util.func import fetch_supplier_products
 
 # Create database tables
 create_tables()
@@ -55,6 +56,7 @@ app.add_middleware(
 # Fetch Only Supplier Products
 # print("Fetching Kroll products...")
 # asyncio.create_task(fetch_only_supplier_products(SheetName.KROLL.value))
+# asyncio.create_task(fetch_supplier_products(SheetName.KROLL.value))
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
