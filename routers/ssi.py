@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from models.ssi import SsiProduct
 from database import get_db
+from services.wordpress import sync_to_woocommerce
 
 router = APIRouter()
               
@@ -46,6 +47,14 @@ async def get_ssi_product(id: int, db: Session = Depends(get_db)):
     if product is None:
         raise HTTPException(status_code=404, detail="ssi product not found")
     return product
+
+@router.post("/ssi/{id}")
+async def upload_ssi_product(id: int, db: Session = Depends(get_db)):
+    product = db.query(SsiProduct).filter(SsiProduct.id == id).first()
+    if product is None:
+        raise HTTPException(status_code=404, detail="ssi product not found")
+    sync_to_woocommerce(product, db)
+    return {"message": "ssi product uploaded successfully", "product": product}
 
 
 @router.post("/ssi/sync")

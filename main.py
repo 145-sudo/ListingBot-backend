@@ -13,7 +13,6 @@ from database import create_tables, get_db
 from models.user import User
 from routers import wp, kroll, ssi, rothco
 from services.suppliers import fetch_only_supplier_products
-# from legacy.util.func import fetch_supplier_products
 
 # Create database tables
 create_tables()
@@ -49,14 +48,17 @@ app.add_middleware(
 
 
 # Start WordPress sync in background
-# from wordpress import get_wp_to_db
+from services.wordpress import get_wp_to_db, sync_and_update_products
 # get_wp_to_db()
-# asyncio.create_task(get_wp_to_db(interval=300))  # Sync every 5 minutes
+asyncio.create_task(get_wp_to_db(interval=300))  # Sync every 5 minutes 
 
 # Fetch Only Supplier Products
-# print("Fetching Kroll products...")
-# asyncio.create_task(fetch_only_supplier_products(SheetName.KROLL.value))
-# asyncio.create_task(fetch_supplier_products(SheetName.KROLL.value))
+print("Fetching Kroll products...")
+asyncio.create_task(fetch_only_supplier_products(SheetName.KROLL.value))
+
+# Start the new sync and update task
+print("Starting product sync and update task...")
+asyncio.create_task(sync_and_update_products(interval=300)) # Sync every 5 minutes
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 

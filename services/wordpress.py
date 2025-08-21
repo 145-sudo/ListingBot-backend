@@ -1,5 +1,10 @@
 import logging
+import asyncio
+from datetime import datetime
+
+from requests import Session
 from config import SheetColumns
+from database import get_db
 from models.kroll import KrollProduct
 from models.rothco import RothcoProduct
 from models.ssi import SsiProduct
@@ -32,12 +37,12 @@ wcapi = API(
     consumer_secret="cs_3692035422f9e985dca09c3a17ac99b7680b690f",
     # consumer_secret=os.getenv("WP_CONSUMER_SECRET"),
     version="wc/v3",
-    timeout=30
+    timeout=30,
 )
 
 
 # Create a background task for periodic sync
-def get_wp_to_db(interval: int = 300):
+async def get_wp_to_db(interval: int = 300):
     try:
         import pandas as pd
 
@@ -74,7 +79,9 @@ def get_wp_to_db(interval: int = 300):
                         db.commit()
                     except Exception as e:
                         db.rollback()
-                        if "UNIQUE constraint failed: wordpress_products.sku" in str(e):
+                        if "UNIQUE constraint failed: wordpress_products.sku" in str(
+                            e
+                        ):
                             print(f"Skipping duplicate product: {wp_product.sku}")
                             continue
                         else:
@@ -109,13 +116,13 @@ def get_wp_to_db(interval: int = 300):
     # await asyncio.sleep(interval)
 
 
-def sync_to_woocommerce(data: KrollProduct | SsiProduct | RothcoProduct):
+def sync_to_woocommerce(data: KrollProduct | SsiProduct | RothcoProduct, db: Session):
     logging.info("Adding product to woocommerce")
 
     # for row in data[1:]:
 
     # SKU BY SUPPLIER
-    sku = data.sku  
+    sku = data.sku
     price = data.price
     name = data.name
     description = data.description
@@ -133,53 +140,7 @@ def sync_to_woocommerce(data: KrollProduct | SsiProduct | RothcoProduct):
     logging.info(f"Syncing product sku:{sku} name:{name}")
     products = wcapi.get(f"products?sku={sku}").json()
     logging.debug(f"WP product response: {products}")
-    # if len(products) > 0 and products[0].get("data", {}).get("status", None) != 401:
-    #     logging.info("product already exists")
-    #     product_id = products[0]["id"]
-    #     # Check if it's a variation
-    #     if row["Type"] == "variation":
-    #         parent_id = row["Parent ID"]
-    #         variations = wcapi.get(
-    #             f"products/{parent_id}/variations?sku={sku}"
-    #         ).json()
-    #         if variations:
-    #             variant_id = variations[0]["id"]
-    #             update_data = {
-    #                 "regular_price": str(price),
-    #                 "stock_quantity": stock,
-    #                 "status": status,
-    #             }
-    #             wcapi.put(
-    #                 f"products/{parent_id}/variations/{variant_id}", update_data
-    #             ).json()
-    #     else:
-    #         logging.info("product is updating")
-    #         update_data = {
-    #             "regular_price": str(price),
-    #             "stock_quantity": stock,
-    #             "status": status,
-    #         }
-    #         wcapi.put(f"products/{product_id}", update_data).json()
-    #     logging.info(f"Updated {row['Type']} {sku}")
-    # else:
-    #     logging.info("product not found, adding as new.")
-    #     # Handle new product/variation creation as needed
-    #     if row.get("Type", "") == "variation":
-    #         parent_id = row["Parent ID"]
-    #         # Create new variation
-    #         create_data = {
-    #             "sku": f"demo-{sku}",
-    #             "regular_price": str(price),
-    #             "stock_quantity": stock,
-    #             "status": status,
-    #             "description": f"demo-{description}",
-    #         }
-    #         wcapi.post(f"products/{parent_id}/variations", create_data).json()
-    #         logging.info(f"Created new variation {sku} under parent {parent_id}")
-    #     else:
     
-    # Above commented code is for variation handling
-    # Create new product
     create_data = {
         "name": f"demo-{name}",
         "type": "simple",
@@ -198,3 +159,100 @@ def sync_to_woocommerce(data: KrollProduct | SsiProduct | RothcoProduct):
     response = wcapi.post("products", create_data).json()
     logging.debug(f"WP product create response: {response}")
     logging.info(f"Created new product {sku}")
+
+    try:
+        data.is_synced = True
+        data.last_synced = datetime.now()
+        db.add(data)
+        db.commit()
+        db.refresh(data)
+    except Exception as e:
+        db.rollback()
+        raise e
+
+
+def update_product_in_woocommerce(product_id, data):
+    """
+    Updates a product in WooCommerce.
+    """
+    logging.info(f"Updating product {product_id} in WooCommerce.")
+    try:
+        response = wcapi.put(f"products/{product_id}", data).json()
+        logging.debug(f"WP product update response: {response}")
+        logging.info(f"Successfully updated product {product_id}")
+        return response
+    except Exception as e:
+        logging.error(f"Error updating product {product_id} in WooCommerce: {e}")
+        return None
+
+async def sync_and_update_products(interval: int = 300):
+    """
+    Periodically syncs supplier products with WordPress products,
+    updating stock and price if necessary.
+    """
+    while True:
+        logging.info("Starting product sync and update process.")
+        db_gen = get_db()
+        db = next(db_gen)
+        try:
+            # Get all supplier products
+            kroll_products = db.query(KrollProduct).all()
+            ssi_products = db.query(SsiProduct).all()
+            rothco_products = db.query(RothcoProduct).all()
+            supplier_products = kroll_products + ssi_products + rothco_products
+            logging.info(f"Found {len(supplier_products)} total supplier products.")
+            logging.info(f"({len(kroll_products)} Kroll, {len(ssi_products)} SSI, {len(rothco_products)} Rothco)")
+
+
+            # Get all WordPress products and create a SKU-based lookup
+            wp_products_list = db.query(WordPressProduct).all()
+            wp_products = {p.sku: p for p in wp_products_list}
+            logging.info(f"Found {len(wp_products)} WordPress products.")
+
+            for supplier_product in supplier_products:
+                if supplier_product.sku in wp_products:
+                    wp_product = wp_products[supplier_product.sku]
+                    
+                    logging.debug(f"Comparing SKU {supplier_product.sku}: "
+                                 f"Supplier (Price: {supplier_product.price}, Stock: {supplier_product.stock}) vs "
+                                 f"WP (Price: {wp_product.price}, Stock: {wp_product.stock_status})")
+
+                    # Check for price or stock changes
+                    price_changed = float(wp_product.price) != float(supplier_product.price)
+                    stock_changed = wp_product.stock_status != supplier_product.stock # Assuming supplier_product.stock holds the stock quantity
+
+                    if price_changed or stock_changed:
+                        logging.info(f"Changes detected for SKU {supplier_product.sku}. Updating.")
+
+                        # Prepare update data for WooCommerce
+                        update_data = {}
+                        if price_changed:
+                            wp_product.price = supplier_product.price
+                            update_data["regular_price"] = str(supplier_product.price)
+                        if stock_changed:
+                            wp_product.stock_status = supplier_product.stock
+                            update_data["stock_quantity"] = supplier_product.stock
+
+                        # Update in database
+                        db.add(wp_product)
+                        db.commit()
+                        db.refresh(wp_product)
+                        logging.info(f"Updated SKU {supplier_product.sku} in the database.")
+
+                        # Update in WooCommerce
+                        update_product_in_woocommerce(wp_product.wp_id, update_data)
+                else:
+                    logging.debug(f"SKU {supplier_product.sku} from supplier not found in WordPress products.")
+
+
+        except Exception as e:
+            logging.error(f"An error occurred during the sync and update process: {e}")
+            db.rollback()
+        finally:
+            try:
+                next(db_gen)  # Close the session
+            except StopIteration:
+                pass
+        
+        logging.info(f"Sync and update process finished. Waiting for {interval} seconds.")
+        await asyncio.sleep(interval)

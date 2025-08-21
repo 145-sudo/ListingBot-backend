@@ -54,7 +54,7 @@ async def upload_kroll_product(id: int, db: Session = Depends(get_db)):
     product = db.query(KrollProduct).filter(KrollProduct.id == id).first()
     if product is None:
         raise HTTPException(status_code=404, detail="kroll product not found")
-    sync_to_woocommerce(product)
+    sync_to_woocommerce(product, db)
     return {"message": "kroll product uploaded successfully", "product": product}
 
 

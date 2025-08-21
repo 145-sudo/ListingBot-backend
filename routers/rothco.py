@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from models.rothco import RothcoProduct
 from database import get_db
+from services.wordpress import sync_to_woocommerce
 
 router = APIRouter()
               
@@ -46,6 +47,15 @@ async def get_rothco_product(id: int, db: Session = Depends(get_db)):
     if product is None:
         raise HTTPException(status_code=404, detail="rothco product not found")
     return product
+
+
+@router.post("/rothco/{id}")
+async def upload_rothco_product(id: int, db: Session = Depends(get_db)):
+    product = db.query(RothcoProduct).filter(RothcoProduct.id == id).first()
+    if product is None:
+        raise HTTPException(status_code=404, detail="rothco product not found")
+    sync_to_woocommerce(product, db)
+    return {"message": "rothco product uploaded successfully", "product": product}
 
 
 @router.post("/rothco/sync")
