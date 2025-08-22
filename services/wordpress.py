@@ -188,7 +188,7 @@ def update_product_in_woocommerce(product_id, data):
 async def sync_and_update_products(interval: int = 300):
     """
     Periodically syncs supplier products with WordPress products,
-    updating stock and price if necessary.
+    updating stock if necessary.
     """
     while True:
         logging.info("Starting product sync and update process.")
@@ -215,20 +215,17 @@ async def sync_and_update_products(interval: int = 300):
                     
                     logging.debug(f"Comparing SKU {supplier_product.sku}: "
                                  f"Supplier (Price: {supplier_product.price}, Stock: {supplier_product.stock}) vs "
-                                 f"WP (Price: {wp_product.price}, Stock: {wp_product.stock_status})")
+                                 f"WP Stock: {wp_product.stock_status})")
 
                     # Check for price or stock changes
-                    price_changed = float(wp_product.price) != float(supplier_product.price)
+                    # price_changed = float(wp_product.price) != float(supplier_product.price)
                     stock_changed = wp_product.stock_status != supplier_product.stock # Assuming supplier_product.stock holds the stock quantity
 
-                    if price_changed or stock_changed:
+                    if stock_changed:
                         logging.info(f"Changes detected for SKU {supplier_product.sku}. Updating.")
 
                         # Prepare update data for WooCommerce
                         update_data = {}
-                        if price_changed:
-                            wp_product.price = supplier_product.price
-                            update_data["regular_price"] = str(supplier_product.price)
                         if stock_changed:
                             wp_product.stock_status = supplier_product.stock
                             update_data["stock_quantity"] = supplier_product.stock
