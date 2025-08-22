@@ -30,7 +30,7 @@ print(f"WP KEY LOADED: {True if os.getenv('WP_CONSUMER_KEY') else False}")
 print(f"WP SECRET LOADED: {True if os.getenv('WP_CONSUMER_KEY') else False}")
 # Initialize the WooCommerce API client
 
-ENV = 'TEST not'
+ENV = 'TEST'
 
 if ENV == "TEST":
     wcapi = API(
@@ -125,12 +125,12 @@ async def get_wp_to_db(interval: int = 300):
     # await asyncio.sleep(interval)
 
 
-def supplier_product_to_wp_product(supplier_product: KrollProduct | SsiProduct | RothcoProduct) -> WordPressProduct:
+def supplier_product_to_wp_product(supplier_product: KrollProduct | SsiProduct | RothcoProduct, saleprice: float) -> WordPressProduct:
     """ Convert a supplier product to a WordPressProduct instance """
     wp_product = WordPressProduct(
         name=supplier_product.name,
         description=supplier_product.description,
-        price=float(supplier_product.price),    # TODO: sale price
+        price=float(saleprice),    # TODO: sale price
         sku=str(supplier_product.sku),
         status="draft",  # Default status
         stock_status="instock" if supplier_product.stock > 0 else "outofstock",
