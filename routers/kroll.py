@@ -2,10 +2,10 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from models.kroll import KrollProduct
 from database import get_db
-from services.wordpress import sync_to_woocommerce
+from services.wordpress import supplier_product_to_wp_product, sync_to_woocommerce
 
 router = APIRouter()
-              
+
 
 # kroll endpoints
 @router.get("/kroll/")
@@ -42,7 +42,6 @@ async def get_kroll_products(
 
 @router.get("/kroll/{id}")
 async def get_kroll_product(id: int, db: Session = Depends(get_db)):
-    
     product = db.query(KrollProduct).filter(KrollProduct.id == id).first()
     if product is None:
         raise HTTPException(status_code=404, detail="kroll product not found")
@@ -51,9 +50,13 @@ async def get_kroll_product(id: int, db: Session = Depends(get_db)):
 
 @router.post("/kroll/{id}")
 async def upload_kroll_product(id: int, db: Session = Depends(get_db)):
+    """ Upload a specific kroll product to WooCommerce """
     product = db.query(KrollProduct).filter(KrollProduct.id == id).first()
     if product is None:
         raise HTTPException(status_code=404, detail="kroll product not found")
+    # Saving supplier product in DB
+    supplier_product_to_wp_product(product)
+    # Syncing to WooCommerce Store
     sync_to_woocommerce(product, db)
     return {"message": "kroll product uploaded successfully", "product": product}
 
@@ -71,6 +74,3 @@ async def delete_kroll_product(id: int, db: Session = Depends(get_db)):
     if not success:
         raise HTTPException(status_code=404, detail="kroll product not found")
     return {"message": "kroll product deleted successfully"}
-
-
-# 4 supplier router cruds

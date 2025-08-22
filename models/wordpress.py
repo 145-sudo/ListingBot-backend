@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean
+from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean, Enum
 from database import Base
 from datetime import datetime
+from config import SheetName as SupplierName
 
 class WordPressProduct(Base):
     __tablename__ = "wordpress_products"
@@ -16,6 +17,10 @@ class WordPressProduct(Base):
     stock_quantity = Column(Integer)
     categories = Column(String)  # JSON string of categories
     images = Column(String)     # JSON string of image URLs
+
+    supplier = Column(Enum(SupplierName), default=None, nullable=True)
+    supplier_sku = Column(String, default=None, nullable=True)
+
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     last_synced = Column(DateTime, default=datetime.utcnow)

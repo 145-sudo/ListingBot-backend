@@ -29,16 +29,25 @@ WP_CONSUMER_SECRET = os.getenv("WP_CONSUMER_SECRET")
 print(f"WP KEY LOADED: {True if os.getenv('WP_CONSUMER_KEY') else False}")
 print(f"WP SECRET LOADED: {True if os.getenv('WP_CONSUMER_KEY') else False}")
 # Initialize the WooCommerce API client
-wcapi = API(
-    url="http://listing-bot.test/",
-    # url="https://stltacticals.com",
-    consumer_key="ck_f7c614f81a52cf9933d09245a373474a176aeb8e",
-    # consumer_key=os.getenv("WP_CONSUMER_KEY"),
-    consumer_secret="cs_3692035422f9e985dca09c3a17ac99b7680b690f",
-    # consumer_secret=os.getenv("WP_CONSUMER_SECRET"),
-    version="wc/v3",
-    timeout=30,
-)
+
+ENV = 'TEST not'
+
+if ENV == "TEST":
+    wcapi = API(
+        url="http://listing-bot.test/",
+        consumer_key="ck_f7c614f81a52cf9933d09245a373474a176aeb8e",
+        consumer_secret="cs_3692035422f9e985dca09c3a17ac99b7680b690f",
+        version="wc/v3",
+        timeout=30,
+    )
+else:
+        wcapi = API(
+        url="https://stltacticals.com",
+        consumer_key=os.getenv("WP_CONSUMER_KEY"),
+        consumer_secret=os.getenv("WP_CONSUMER_SECRET"),
+        version="wc/v3",
+        timeout=30,
+    )
 
 
 # Create a background task for periodic sync
@@ -115,6 +124,53 @@ async def get_wp_to_db(interval: int = 300):
         )
     # await asyncio.sleep(interval)
 
+
+def supplier_product_to_wp_product(supplier_product: KrollProduct | SsiProduct | RothcoProduct) -> WordPressProduct:
+    """ Convert a supplier product to a WordPressProduct instance """
+    wp_product = WordPressProduct(
+        name=supplier_product.name,
+        description=supplier_product.description,
+        price=float(supplier_product.price),    # TODO: sale price
+        sku=str(supplier_product.sku),
+        status="draft",  # Default status
+        stock_status="instock" if supplier_product.stock > 0 else "outofstock",
+        stock_quantity=supplier_product.stock,
+        categories=str(
+            [
+                {"name": supplier_product.category},
+                {"name": supplier_product.sub_category},
+            ]
+        ),
+        images=str([{"src": img} for img in supplier_product.images.split(",")])
+        if supplier_product.images
+        else "[]",
+        supplier=supplier_product.__tablename__.upper(),
+        supplier_sku=supplier_product.sku,
+    )
+
+    # Get database session
+    from database import get_db
+
+    db_gen = get_db()
+    db = next(db_gen)  # Get the actual session from the generator
+
+    # Check for existing product by SKU
+    existing_product = db.query(WordPressProduct).filter_by(sku=wp_product.sku).first()
+    if existing_product:
+        print(f"Product with SKU {wp_product.sku} already exists. Skipping.")
+        return existing_product
+
+    # Add to database
+    db.add(wp_product)
+
+    try:
+        # Commit all changes
+        db.commit()
+    except Exception as e:
+        logging.error(f"Error committing product {wp_product.sku}: {e}")
+        db.rollback()
+
+    return wp_product
 
 def sync_to_woocommerce(data: KrollProduct | SsiProduct | RothcoProduct, db: Session):
     logging.info("Adding product to woocommerce")
