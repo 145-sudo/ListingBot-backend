@@ -15,14 +15,27 @@ def parse_html_kroll(html_content):
     # Example: assuming product titles are in <h2> tags with class 'product-name'
     scripts = soup.find_all("script")
 
-    if scripts is None or len(scripts) < 11:
-        print("No scripts found.")
-        return None
+    for i, scr in enumerate(scripts, 1):
+        if "var dl4Objects" in scr.text:
+            print(f"Found the script {i} containing dl4Objects.")
+            script = scr.text.strip()
+            print(script[:1000])  # Print the first 1000 characters for inspection
+            break
+    else:
+        script = None
 
-    script = scripts[11].text.strip()
+    # if scripts is None or len(scripts) < 11:
+    #     print("No scripts found.")
+    #     return None
+
+    # script = scripts.strip()
+    # script = scripts[11].text.strip()
+    # print(script[:1000])  # Print the first 1000 characters of the script for inspection
+
 
     # Use regular expression to find the dl4Objects list
     match = re.search(r"var dl4Objects = (\[.*?\]);", script, re.DOTALL)
+    print(match)
     if match:
         dl4Objects_str = match.group(1)
         # Convert the string representation of the list to an actual list

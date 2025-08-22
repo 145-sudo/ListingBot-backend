@@ -8,11 +8,11 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 from auth import authenticate_user, create_access_token, get_current_active_user
-from config import SheetName
 from database import create_tables, get_db
 from models.user import User
 from routers import wp, kroll, ssi, rothco
 from services.suppliers import fetch_only_supplier_products
+from config import SheetName
 
 # Create database tables
 create_tables()
