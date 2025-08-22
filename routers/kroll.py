@@ -1,3 +1,4 @@
+from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from models.kroll import KrollProduct
@@ -48,16 +49,25 @@ async def get_kroll_product(id: int, db: Session = Depends(get_db)):
     return product
 
 
-@router.post("/kroll/{id}")
-async def upload_kroll_product(id: int, db: Session = Depends(get_db)):
+@router.post("/kroll/{id}/{price}")
+async def upload_kroll_product(id: int, price: float, db: Session = Depends(get_db)):
     """ Upload a specific kroll product to WooCommerce """
     product = db.query(KrollProduct).filter(KrollProduct.id == id).first()
     if product is None:
         raise HTTPException(status_code=404, detail="kroll product not found")
     # Saving supplier product in DB
-    supplier_product_to_wp_product(product)
+    wp_product = supplier_product_to_wp_product(db, product, price)
     # Syncing to WooCommerce Store
-    sync_to_woocommerce(product, db)
+    if wp_product:
+        sync_to_woocommerce(wp_product, db)
+        try:
+            product.is_synced = True
+            product.last_synced = datetime.now()
+            db.add(product)
+            db.commit()
+            db.refresh(product)
+        except Exception as e:
+            db.rollback()
     return {"message": "kroll product uploaded successfully", "product": product}
 
 

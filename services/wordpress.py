@@ -125,7 +125,7 @@ async def get_wp_to_db(interval: int = 300):
     # await asyncio.sleep(interval)
 
 
-def supplier_product_to_wp_product(supplier_product: KrollProduct | SsiProduct | RothcoProduct, saleprice: float) -> WordPressProduct:
+def supplier_product_to_wp_product(db: Session, supplier_product: KrollProduct | SsiProduct | RothcoProduct, saleprice: float) -> WordPressProduct:
     """ Convert a supplier product to a WordPressProduct instance """
     wp_product = WordPressProduct(
         name=supplier_product.name,
@@ -141,18 +141,18 @@ def supplier_product_to_wp_product(supplier_product: KrollProduct | SsiProduct |
                 {"name": supplier_product.sub_category},
             ]
         ),
-        images=str([{"src": img} for img in supplier_product.images.split(",")])
-        if supplier_product.images
-        else "[]",
-        supplier=supplier_product.__tablename__.upper(),
+        # images=str([{"src": img} for img in supplier_product.images.split(",")])
+        # if supplier_product.images
+        # else "[]",
+        # supplier=supplier_product.__tablename__.upper(),
         supplier_sku=supplier_product.sku,
     )
 
     # Get database session
-    from database import get_db
+    # from database import get_db
 
-    db_gen = get_db()
-    db = next(db_gen)  # Get the actual session from the generator
+    # db_gen = get_db()
+    # db = next(db_gen)  # Get the actual session from the generator
 
     # Check for existing product by SKU
     existing_product = db.query(WordPressProduct).filter_by(sku=wp_product.sku).first()
@@ -172,19 +172,24 @@ def supplier_product_to_wp_product(supplier_product: KrollProduct | SsiProduct |
 
     return wp_product
 
-def sync_to_woocommerce(data: KrollProduct | SsiProduct | RothcoProduct, db: Session):
+def sync_to_woocommerce(data: KrollProduct | SsiProduct | RothcoProduct | WordPressProduct ,db: Session):
     logging.info("Adding product to woocommerce")
 
     # for row in data[1:]:
-
+    if isinstance(data, WordPressProduct):
+        category = data.categories
+        stock = data.stock_quantity
+    else:
+        category = data.category
+        stock = data.stock
     # SKU BY SUPPLIER
     sku = data.sku
     price = data.price
     name = data.name
     description = data.description
-    category = data.category
-    sub_category = data.sub_category
-    stock = data.stock
+    # category = data.categories
+    # sub_category = data.sub_category
+    # stock = data.stock
     status = "draft"
     # status = (
     #     "publish"
@@ -206,11 +211,11 @@ def sync_to_woocommerce(data: KrollProduct | SsiProduct | RothcoProduct, db: Ses
         "stock_quantity": stock,
         "status": status,
         "description": description,
-        "categories": (
-            [{"name": category}, {"name": sub_category}]
-            if category and sub_category
-            else []
-        ),
+        # "categories": (
+            # [{"name": category}, {"name": sub_category}]
+            # if category and sub_category
+            # else []
+        # ),
     }
     response = wcapi.post("products", create_data).json()
     logging.debug(f"WP product create response: {response}")
