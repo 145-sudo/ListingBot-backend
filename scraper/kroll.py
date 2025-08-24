@@ -19,7 +19,7 @@ def parse_html_kroll(html_content):
         if "var dl4Objects" in scr.text:
             print(f"Found the script {i} containing dl4Objects.")
             script = scr.text.strip()
-            print(script[:1000])  # Print the first 1000 characters for inspection
+            # print(script[:1000])  # Print the first 1000 characters for inspection
             break
     else:
         script = None

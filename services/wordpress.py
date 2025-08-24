@@ -3,19 +3,17 @@ import asyncio
 from datetime import datetime
 
 from requests import Session
-from config import SheetColumns
+from config import SheetColumns, SheetName
 from database import get_db
 from models.kroll import KrollProduct
 from models.rothco import RothcoProduct
 from models.ssi import SsiProduct
 from models.wordpress import WordPressProduct
 from fastapi import HTTPException
-from legacy.util.wp import get_store_products
 from dotenv import load_dotenv
 import os
 from woocommerce import API
 
-from services.sheet import get_attribute
 
 load_dotenv()
 
@@ -125,8 +123,10 @@ async def get_wp_to_db(interval: int = 300):
     # await asyncio.sleep(interval)
 
 
-def supplier_product_to_wp_product(db: Session, supplier_product: KrollProduct | SsiProduct | RothcoProduct, saleprice: float) -> WordPressProduct:
+def supplier_product_to_wp_product(db: Session, supplier_product: KrollProduct | SsiProduct | RothcoProduct, saleprice: float, supplier_name: SheetName = None) -> WordPressProduct:
     """ Convert a supplier product to a WordPressProduct instance """
+    print("supplier name", supplier_name)
+    print("supplier name", supplier_name.value if supplier_name else None)
     wp_product = WordPressProduct(
         name=supplier_product.name,
         description=supplier_product.description,
@@ -145,6 +145,7 @@ def supplier_product_to_wp_product(db: Session, supplier_product: KrollProduct |
         # if supplier_product.images
         # else "[]",
         # supplier=supplier_product.__tablename__.upper(),
+        supplier=supplier_name,
         supplier_sku=supplier_product.sku,
     )
 

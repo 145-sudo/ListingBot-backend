@@ -11,7 +11,7 @@ from auth import authenticate_user, create_access_token, get_current_active_user
 from database import create_tables, get_db
 from models.user import User
 from routers import wp, kroll, ssi, rothco
-from services.suppliers import fetch_only_supplier_products
+from services.suppliers import scrape_save_supplier_products
 from config import SheetName
 
 # Create database tables
@@ -53,7 +53,8 @@ from services.wordpress import get_wp_to_db, sync_and_update_products
 # asyncio.create_task(get_wp_to_db(interval=300))  # Sync every 5 minutes 
 
 # Fetch Only Supplier Products
-# asyncio.create_task(fetch_only_supplier_products(SheetName.KROLL.value))
+asyncio.create_task(scrape_save_supplier_products(SheetName.KROLL.value))
+# asyncio.create_task(scrape_save_supplier_products(SheetName.SSI.value))
 
 # Start the new sync and update task
 # asyncio.create_task(sync_and_update_products(interval=300)) # Sync every 5 minutes

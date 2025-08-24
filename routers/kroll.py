@@ -1,6 +1,7 @@
 from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from config import SheetName
 from models.kroll import KrollProduct
 from database import get_db
 from services.wordpress import supplier_product_to_wp_product, sync_to_woocommerce
@@ -56,7 +57,7 @@ async def upload_kroll_product(id: int, price: float, db: Session = Depends(get_
     if product is None:
         raise HTTPException(status_code=404, detail="kroll product not found")
     # Saving supplier product in DB
-    wp_product = supplier_product_to_wp_product(db, product, price)
+    wp_product = supplier_product_to_wp_product(db, product, price, SheetName.KROLL)
     # Syncing to WooCommerce Store
     if wp_product:
         sync_to_woocommerce(wp_product, db)
