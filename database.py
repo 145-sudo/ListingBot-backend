@@ -12,7 +12,8 @@ if not SQLALCHEMY_DATABASE_URL:
     exit("Error: DATABASE_URL is not set in the environment variables.")
 
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+    SQLALCHEMY_DATABASE_URL, 
+    # connect_args={"check_same_thread": False}
 )
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
@@ -24,7 +25,7 @@ def create_tables():
     """Create all database tables."""
     # Import models here to avoid circular imports
     from models.user import User  # noqa: F401
-    from models.products import Product  # noqa
+    # from models.products import Product  # noqa
     from models.wordpress import WordPressProduct  # noqa
     from models.ssi import SsiProduct  # noqa
     from models.kroll import KrollProduct  # noqa
