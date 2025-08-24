@@ -23,7 +23,7 @@ def insert_update_KROLL(data: DataFrame):
             if existing_product:
                 updated += 1 
                 existing_product.price = row.get(get_attribute(SheetName.KROLL.value, SheetColumns.PRICE))
-                existing_product.stock = row.get(get_attribute(SheetName.KROLL.value, SheetColumns.STOCK))
+                existing_product.stock = row.get(get_attribute(SheetName.KROLL.value, SheetColumns.STOCK), 0)
             else:
                 new += 1 
                 product = KrollProduct(
