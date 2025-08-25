@@ -14,9 +14,11 @@ from routers import wp, kroll, ssi, rothco
 from services.suppliers import scrape_save_supplier_products
 from config import SheetName
 from services.wordpress import get_wp_to_db, sync_and_update_products
+from seeder import seed_user
 
 # Create database tables
 create_tables()
+seed_user()
 
 # Logging configuration
 # Configure logging to file
