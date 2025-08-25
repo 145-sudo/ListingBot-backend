@@ -53,36 +53,63 @@ async def get_wp_to_db(interval: int = 300):
     try:
         import pandas as pd
 
-        products = pd.read_csv("products.csv")
+        # Keep NaN values as NaN, don't convert them to a default string
+        products_df = pd.read_csv("products.csv")
+        # products_df = pd.read_csv("products.csv", keep_default_na=False, na_values=[''])
         print("loaded products file")
 
         # Get database session
         from database import get_db
 
         db_gen = get_db()
-        db = next(db_gen)  # Get the actual session from the generator
+        db = next(db_gen) 
 
         try:
-            for _, product in products.iterrows():
-                try:
-                    # Map only available columns from CSV to WordPressProduct
-                    wp_product = WordPressProduct(
-                        wp_id=product["id"],
-                        name=product["name"],
-                        description=product["description"],
-                        price=float(product["price"]),
-                        sku=str(product["sku"]),
-                        status=product["status"],
-                        stock_status=product["stock_status"],
-                        # created_at=product['date_created'],
-                        # updated_at=product['date_modified']
-                    )
+            # Get all WordPress products and create a wp_id-based lookup
+            wp_products_list = db.query(WordPressProduct).all()
+            wp_products = {p.wp_id: p for p in wp_products_list}
+            logging.info(f"Found {len(wp_products)} WordPress products.")
 
-                    # Add to database
-                    db.add(wp_product)
+            for _, product_data in products_df.iterrows():
+                # # Skip rows where SKU is NaN or empty
+                # if pd.isna(product_data["sku"]) or product_data["sku"] == '':
+                #     logging.warning(f"Skipping product with empty SKU. WP_ID: {product_data.get('id')}, Name: {product_data.get('name')}")
+                #     continue
 
+                wp_id = product_data["id"]
+                
+                # Check if product exists
+                if wp_id in wp_products:
+                    wp_product = wp_products[wp_id]
+                    
+                    # Check for changes in price and stock
+                    price_changed = wp_product.price != product_data["price"]
+                    stock_changed = wp_product.stock_status != product_data["stock_status"]
+
+                    if price_changed or stock_changed:
+                        logging.info(f"Changes detected for wp_id {wp_id}. Updating.")
+                        if price_changed:
+                            wp_product.price = float(product_data["price"])
+                        if stock_changed:
+                            wp_product.stock_status = product_data["stock_status"]
+                        
+                        db.add(wp_product)
+                        db.commit()
+                    else:
+                        pass
+                else:
+                    # Product not found, create a new one
                     try:
-                        # Commit all changes
+                        new_wp_product = WordPressProduct(
+                            wp_id=product_data["id"],
+                            name=product_data["name"],
+                            description=product_data["description"],
+                            price=product_data["price"],
+                            sku=str(product_data["sku"]),
+                            status=product_data["status"],
+                            stock_status=product_data["stock_status"],
+                        )
+                        db.add(new_wp_product)
                         db.commit()
                     except Exception as e:
                         db.rollback()
@@ -97,13 +124,6 @@ async def get_wp_to_db(interval: int = 300):
                             #     status_code=500,
                             #     detail=f"Error processing product: {str(e)}"
                             # )
-                except Exception as e:
-                    db.rollback()
-                    raise HTTPException(
-                        status_code=500, detail=f"Error processing product: {str(e)}"
-                    )
-            print(f"Successfully synced {len(products)} products")
-            return True
 
         except Exception as e:
             db.rollback()
@@ -247,6 +267,32 @@ def update_product_in_woocommerce(product_id, data):
         logging.error(f"Error updating product {product_id} in WooCommerce: {e}")
         return None
 
+def process_updates(db, supplier_products, wp_products, supplier_name):
+    for supplier_product in supplier_products:
+        if supplier_product.sku in wp_products:
+            wp_product = wp_products[supplier_product.sku]
+            # Compare updated_at timestamps
+            if supplier_product.updated_at > wp_product.updated_at:
+                logging.info(f"Supplier product {supplier_product.sku} from {supplier_name} is newer. Updating stock.")
+                
+                update_data = {"stock_quantity": supplier_product.stock}
+                
+                # Update in WooCommerce
+                update_product_in_woocommerce(wp_product.wp_id, update_data)
+                
+                # Update in database
+                wp_product.stock_quantity = supplier_product.stock
+                wp_product.stock_status = 'instock' if supplier_product.stock > 0 else 'outofstock'
+                db.add(wp_product)
+                db.commit()
+                db.refresh(wp_product)
+                logging.info(f"Updated SKU {supplier_product.sku} in the database.")
+            else:
+                logging.debug(f"SKU {supplier_product.sku} from {supplier_name} is not newer than WordPress product. Skipping.")
+        else:
+            logging.debug(f"SKU {supplier_product.sku} from {supplier_name} not found in WordPress products.")
+
+
 async def sync_and_update_products(interval: int = 300):
     """
     Periodically syncs supplier products with WordPress products,
@@ -257,52 +303,30 @@ async def sync_and_update_products(interval: int = 300):
         db_gen = get_db()
         db = next(db_gen)
         try:
-            # Get all supplier products
-            kroll_products = db.query(KrollProduct).all()
-            ssi_products = db.query(SsiProduct).all()
-            rothco_products = db.query(RothcoProduct).all()
-            supplier_products = kroll_products + ssi_products + rothco_products
-            logging.info(f"Found {len(supplier_products)} total supplier products.")
-            logging.info(f"({len(kroll_products)} Kroll, {len(ssi_products)} SSI, {len(rothco_products)} Rothco)")
+            # Define suppliers and their corresponding models and filter values
+            suppliers = [
+                ("Kroll", KrollProduct, SheetName.KROLL.value),
+                ("SSI", SsiProduct, SheetName.SSI.value),
+                ("Rothco", RothcoProduct, 'Rothco')
+            ]
 
+            for name, model, filter_val in suppliers:
+                # Query supplier products
+                supplier_products = db.query(model).all()
+                all_wp_products = db.query(WordPressProduct).all()
+                wp_products_list = [p for p in all_wp_products if p.supplier is not None and p.supplier.value == filter_val]
+                
+                # if none , then move to next loop
+                if not wp_products_list:
+                    logging.info(f"No {name} WordPress products found to sync. Skipping.")
+                    continue
+                # Map WordPress products by SKU
+                wp_products = {p.sku: p for p in wp_products_list}
 
-            # Get all WordPress products and create a SKU-based lookup
-            wp_products_list = db.query(WordPressProduct).all()
-            wp_products = {p.sku: p for p in wp_products_list}
-            logging.info(f"Found {len(wp_products)} WordPress products.")
+                logging.info(f"Found {len(supplier_products)} {name} supplier products.")
+                logging.info(f"Found {len(wp_products)} {name} WordPress products to sync.")
 
-            for supplier_product in supplier_products:
-                if supplier_product.sku in wp_products:
-                    wp_product = wp_products[supplier_product.sku]
-                    
-                    logging.debug(f"Comparing SKU {supplier_product.sku}: "
-                                 f"Supplier (Price: {supplier_product.price}, Stock: {supplier_product.stock}) vs "
-                                 f"WP Stock: {wp_product.stock_status})")
-
-                    # Check for price or stock changes
-                    # price_changed = float(wp_product.price) != float(supplier_product.price)
-                    stock_changed = wp_product.stock_status != supplier_product.stock # Assuming supplier_product.stock holds the stock quantity
-
-                    if stock_changed:
-                        logging.info(f"Changes detected for SKU {supplier_product.sku}. Updating.")
-
-                        # Prepare update data for WooCommerce
-                        update_data = {}
-                        if stock_changed:
-                            wp_product.stock_status = supplier_product.stock
-                            update_data["stock_quantity"] = supplier_product.stock
-
-                        # Update in database
-                        db.add(wp_product)
-                        db.commit()
-                        db.refresh(wp_product)
-                        logging.info(f"Updated SKU {supplier_product.sku} in the database.")
-
-                        # Update in WooCommerce
-                        update_product_in_woocommerce(wp_product.wp_id, update_data)
-                else:
-                    logging.debug(f"SKU {supplier_product.sku} from supplier not found in WordPress products.")
-
+                process_updates(db, supplier_products, wp_products, name)
 
         except Exception as e:
             logging.error(f"An error occurred during the sync and update process: {e}")
