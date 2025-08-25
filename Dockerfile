@@ -27,6 +27,8 @@ EXPOSE 8000
 # Set environment
 ENV PATH="/app/.venv/bin:$PATH"
 ENV ENVIRONMENT=production
+# Set default DATABASE_URL but allow override from Railway.app
+ENV DATABASE_URL=${DATABASE_URL}
 
 RUN uv run seeder.py
 
