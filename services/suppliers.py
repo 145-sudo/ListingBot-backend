@@ -7,7 +7,7 @@ from scraper.rothco import scrape_rothco_categories
 from scraper.ssi import scrape_ssi_categories
 from services.db import insert_update_KROLL, insert_update_SSI
 
-async def scrape_save_supplier_products(supplier_name: str, interval: int = 10):
+async def scrape_save_supplier_products(supplier_name: str, interval: int = 300):
     try:
         categories = load_json_from_dir(f"{supplier_name}.json")
         logging.info(f"Fetched {len(categories)} categories of {supplier_name.title()}")

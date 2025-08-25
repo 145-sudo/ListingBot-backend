@@ -170,99 +170,100 @@ def get_store_products() -> pd.DataFrame:
 
 # Create a background task for periodic sync
 async def get_wp_to_db(interval: int = 300):
-    try:
-        # import pandas as pd
-
-        # # Keep NaN values as NaN, don't convert them to a default string
-        # products_df = pd.read_csv("products.csv")
-        # # products_df = pd.read_csv("products.csv", keep_default_na=False, na_values=[''])
-        # print("loaded products file")
-
-        products_df = get_store_products()
-
-        # Get database session
-        from database import get_db
-
-        db_gen = get_db()
-        db = next(db_gen)
-
+    while True:
         try:
-            # Get all WordPress products and create a wp_id-based lookup
-            wp_products_list = db.query(WordPressProduct).all()
-            wp_products = {p.wp_id: p for p in wp_products_list}
-            logging.info(f"Found {len(wp_products)} WordPress products.")
+            # import pandas as pd
 
-            for _, product_data in products_df.iterrows():
-                # # Skip rows where SKU is NaN or empty
-                # if pd.isna(product_data["sku"]) or product_data["sku"] == '':
-                #     logging.warning(f"Skipping product with empty SKU. WP_ID: {product_data.get('id')}, Name: {product_data.get('name')}")
-                #     continue
+            # # Keep NaN values as NaN, don't convert them to a default string
+            # products_df = pd.read_csv("products.csv")
+            # # products_df = pd.read_csv("products.csv", keep_default_na=False, na_values=[''])
+            # print("loaded products file")
 
-                wp_id = product_data["id"]
+            products_df = get_store_products()
 
-                # Check if product exists
-                if wp_id in wp_products:
-                    wp_product = wp_products[wp_id]
+            # Get database session
+            from database import get_db
 
-                    # Check for changes in price and stock
-                    price_changed = wp_product.price != product_data["price"]
-                    stock_changed = (
-                        wp_product.stock_status != product_data["stock_status"]
-                    )
+            db_gen = get_db()
+            db = next(db_gen)
 
-                    if price_changed or stock_changed:
-                        logging.info(f"Changes detected for wp_id {wp_id}. Updating.")
-                        if price_changed:
-                            wp_product.price = float(product_data["price"])
-                        if stock_changed:
-                            wp_product.stock_status = product_data["stock_status"]
-
-                        db.add(wp_product)
-                        db.commit()
-                    else:
-                        pass
-                else:
-                    # Product not found, create a new one
-                    try:
-                        new_wp_product = WordPressProduct(
-                            wp_id=product_data["id"],
-                            name=product_data["name"],
-                            description=product_data["description"],
-                            price=product_data["price"],
-                            sku=str(product_data["sku"]),
-                            status=product_data["status"],
-                            stock_status=product_data["stock_status"],
-                        )
-                        db.add(new_wp_product)
-                        db.commit()
-                    except Exception as e:
-                        db.rollback()
-                        if "UNIQUE constraint failed: wordpress_products.sku" in str(e):
-                            print(f"Skipping duplicate product: {wp_product.sku}")
-                            continue
-                        else:
-                            print("skip product already exists")
-                            # raise HTTPException(
-                            #     status_code=500,
-                            #     detail=f"Error processing product: {str(e)}"
-                            # )
-
-        except Exception as e:
-            db.rollback()
-            raise HTTPException(
-                status_code=500, detail=f"Error processing products: {str(e)}"
-            )
-
-        finally:
             try:
-                next(db_gen)  # This will trigger the generator's cleanup
-            except StopIteration:
-                pass  # Generator is already exhausted
-    except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Error syncing WordPress products: {str(e)}"
-        )
-    # await asyncio.sleep(interval)
+                # Get all WordPress products and create a wp_id-based lookup
+                wp_products_list = db.query(WordPressProduct).all()
+                wp_products = {p.wp_id: p for p in wp_products_list}
+                logging.info(f"Found {len(wp_products)} WordPress products.")
+
+                for _, product_data in products_df.iterrows():
+                    # # Skip rows where SKU is NaN or empty
+                    # if pd.isna(product_data["sku"]) or product_data["sku"] == '':
+                    #     logging.warning(f"Skipping product with empty SKU. WP_ID: {product_data.get('id')}, Name: {product_data.get('name')}")
+                    #     continue
+
+                    wp_id = product_data["id"]
+
+                    # Check if product exists
+                    if wp_id in wp_products:
+                        wp_product = wp_products[wp_id]
+
+                        # Check for changes in price and stock
+                        price_changed = wp_product.price != product_data["price"]
+                        stock_changed = (
+                            wp_product.stock_status != product_data["stock_status"]
+                        )
+
+                        if price_changed or stock_changed:
+                            logging.info(f"Changes detected for wp_id {wp_id}. Updating.")
+                            if price_changed:
+                                wp_product.price = float(product_data["price"])
+                            if stock_changed:
+                                wp_product.stock_status = product_data["stock_status"]
+
+                            db.add(wp_product)
+                            db.commit()
+                        else:
+                            pass
+                    else:
+                        # Product not found, create a new one
+                        try:
+                            new_wp_product = WordPressProduct(
+                                wp_id=product_data["id"],
+                                name=product_data["name"],
+                                description=product_data["description"],
+                                price=product_data["price"],
+                                sku=str(product_data["sku"]),
+                                status=product_data["status"],
+                                stock_status=product_data["stock_status"],
+                            )
+                            db.add(new_wp_product)
+                            db.commit()
+                        except Exception as e:
+                            db.rollback()
+                            if "UNIQUE constraint failed: wordpress_products.sku" in str(e):
+                                print(f"Skipping duplicate product: {wp_product.sku}")
+                                continue
+                            else:
+                                print("skip product already exists")
+                                # raise HTTPException(
+                                #     status_code=500,
+                                #     detail=f"Error processing product: {str(e)}"
+                                # )
+
+            except Exception as e:
+                db.rollback()
+                raise HTTPException(
+                    status_code=500, detail=f"Error processing products: {str(e)}"
+                )
+
+            finally:
+                try:
+                    next(db_gen)  # This will trigger the generator's cleanup
+                except StopIteration:
+                    pass  # Generator is already exhausted
+        except Exception as e:
+            raise HTTPException(
+                status_code=500, detail=f"Error syncing WordPress products: {str(e)}"
+            )
+        await asyncio.sleep(interval)
 
 
 def supplier_product_to_wp_product(
