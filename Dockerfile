@@ -28,5 +28,7 @@ EXPOSE 8000
 ENV PATH="/app/.venv/bin:$PATH"
 ENV ENVIRONMENT=production
 
+RUN uv run seeder.py
+
 # Run FastAPI app with uvicorn
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
