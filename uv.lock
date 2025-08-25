@@ -61,6 +61,7 @@ dependencies = [
     { name = "python-jose", extra = ["cryptography"] },
     { name = "python-multipart" },
     { name = "requests" },
+    { name = "rocketry" },
     { name = "schedule" },
     { name = "sqlalchemy" },
     { name = "uvicorn" },
@@ -88,6 +89,7 @@ requires-dist = [
     { name = "python-jose", extras = ["cryptography"], specifier = ">=3.5.0" },
     { name = "python-multipart", specifier = ">=0.0.20" },
     { name = "requests", specifier = ">=2.32.4" },
+    { name = "rocketry", specifier = ">=2.5.1" },
     { name = "schedule", specifier = ">=1.2.2" },
     { name = "sqlalchemy", specifier = ">=2.0.42" },
     { name = "uvicorn", specifier = ">=0.35.0" },
@@ -1002,6 +1004,19 @@ wheels = [
 ]
 
 [[package]]
+name = "redbird"
+version = "0.7.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pydantic" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4c/12/6cbd6fc135a478ebc77e8ac2dd949a1c503d038a9181881a52c3e4ad6395/redbird-0.7.1.tar.gz", hash = "sha256:9ef1098f2a0e68afe40349475018f7694b05bdf92250772cd8d0126f26de58a9", size = 154874 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b6/47/af2f7054e12d038115adc51073d2ce280ee4f4e368ad5a085eb149504ced/redbird-0.7.1-py3-none-any.whl", hash = "sha256:6a1fe83fa9dfc0c5b9cb256b54376c299c423f2daba7bcbc081a820ff5b3c6c1", size = 60115 },
+]
+
+[[package]]
 name = "requests"
 version = "2.32.4"
 source = { registry = "https://pypi.org/simple" }
@@ -1027,6 +1042,20 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/42/f2/05f29bc3913aea15eb670be136045bf5c5bbf4b99ecb839da9b422bb2c85/requests-oauthlib-2.0.0.tar.gz", hash = "sha256:b3dffaebd884d8cd778494369603a9e7b58d29111bf6b41bdc2dcd87203af4e9", size = 55650 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/3b/5d/63d4ae3b9daea098d5d6f5da83984853c1bbacd5dc826764b249fe119d24/requests_oauthlib-2.0.0-py2.py3-none-any.whl", hash = "sha256:7dd8a5c40426b779b0868c404bdef9768deccf22749cde15852df527e6269b36", size = 24179 },
+]
+
+[[package]]
+name = "rocketry"
+version = "2.5.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pydantic" },
+    { name = "python-dateutil" },
+    { name = "redbird" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b1/ac/d66cd3d76d4ef6f4a72311e6c8968673104b4057e4c3f210cdb612b48491/rocketry-2.5.1.tar.gz", hash = "sha256:11d1fb3d2856c5b2727bb4814c4f2bfbd2803067eebeac872d34a4c7a6756825", size = 327548 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/23/7a/afeff59c7c1e418633d96e854a1e5c3da9b49cc2ef952fb9bee335d9bed3/rocketry-2.5.1-py3-none-any.whl", hash = "sha256:d8755e909026ba401174218bc0a0958044973244cd07e1405e80f85512440253", size = 216717 },
 ]
 
 [[package]]

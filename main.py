@@ -1,20 +1,18 @@
 from datetime import timedelta
 import logging
+import asyncio
+import uvicorn
 
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
-from services.background_tasks import task_manager
-
 from auth import authenticate_user, create_access_token, get_current_active_user
 from database import create_tables, get_db
 from models.user import User
 from routers import wp, kroll, ssi, rothco
-from services.suppliers import scrape_save_supplier_products
-from config import SheetName
-from services.wordpress import get_wp_to_db, sync_and_update_products
+from scheduler import app as app_rocketry
 from seeder import seed_user
 
 # Create database tables
@@ -52,19 +50,20 @@ app.add_middleware(
 
 from services.background_tasks import task_manager
 
-@app.on_event("startup")
-async def start_background_tasks():
-    # Start WordPress sync tasks in background (every 15 minutes)
-    await task_manager.start_task(get_wp_to_db, 900)  # 15 minutes
-    await task_manager.start_task(sync_and_update_products, 900)  # 15 minutes
-    
-    # Start supplier product scraping (every 30 minutes)
-    await task_manager.start_task(scrape_save_supplier_products, 1800, SheetName.KROLL.value)
-    await task_manager.start_task(scrape_save_supplier_products, 1800, SheetName.SSI.value)
+class Server(uvicorn.Server):
+    """Customized uvicorn.Server to handle Rocketry shutdown"""
+    def handle_exit(self, sig: int, frame) -> None:
+        app_rocketry.session.shut_down()
+        return super().handle_exit(sig, frame)
 
-@app.on_event("shutdown")
-async def stop_background_tasks():
-    await task_manager.stop_all_tasks()
+async def main():
+    """Run scheduler and the API"""
+    server = Server(config=uvicorn.Config(app, workers=1, loop="asyncio"))
+
+    api = asyncio.create_task(server.serve())
+    scheduler = asyncio.create_task(app_rocketry.serve())
+
+    await asyncio.wait([scheduler, api])
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -98,3 +97,6 @@ app.include_router(wp.router, tags=["WordPress"])
 app.include_router(kroll.router, tags=["Kroll"])
 app.include_router(ssi.router, tags=["Ssi"])
 app.include_router(rothco.router, tags=["Rothco"])
+
+if __name__ == "__main__":
+    asyncio.run(main())
