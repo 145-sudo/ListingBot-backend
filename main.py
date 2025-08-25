@@ -13,6 +13,7 @@ from models.user import User
 from routers import wp, kroll, ssi, rothco
 from services.suppliers import scrape_save_supplier_products
 from config import SheetName
+from services.wordpress import get_wp_to_db, sync_and_update_products
 
 # Create database tables
 create_tables()
@@ -46,10 +47,9 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
-
 # Start WordPress sync in background
-from services.wordpress import get_wp_to_db, sync_and_update_products
 # get_wp_to_db()
+asyncio.create_task(get_wp_to_db(interval=300))  # Sync every 5 minutes 
 asyncio.create_task(get_wp_to_db(interval=300))  # Sync every 5 minutes 
 
 # Fetch Only Supplier Products
