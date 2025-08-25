@@ -1,12 +1,527 @@
 [
   {
     "category": "Apparel",
-    "sub_category": "Bottoms",
+    "sub_category": "Bottoms (1)",
     "url": "/Categories/List/Bottoms"
   },
   {
     "category": "Apparel",
-    "sub_category": "Eyewear - Accessories",
+    "sub_category": "Eyewear - Accessories (12)",
     "url": "/Categories/List/Eyewear-Accessories"
+  },
+  {
+    "category": "Apparel",
+    "sub_category": "Eyewear - Goggles (2)",
+    "url": "/Categories/List/Eyewear-Goggles"
+  },
+  {
+    "category": "Apparel",
+    "sub_category": "Eyewear - Safety and Shooting (34)",
+    "url": "/Categories/List/Eyewear-Safety-and-Shooting"
+  },
+  {
+    "category": "Apparel",
+    "sub_category": "Eyewear - Sunglasses (14)",
+    "url": "/Categories/List/Eyewear-Sunglasses"
+  },
+  {
+    "category": "Apparel",
+    "sub_category": "Gloves (4)",
+    "url": "/Categories/List/Gloves"
+  },
+  {
+    "category": "Apparel",
+    "sub_category": "Headwear (5)",
+    "url": "/Categories/List/Headwear"
+  },
+  {
+    "category": "Apparel",
+    "sub_category": "Tops (11)",
+    "url": "/Categories/List/Tops"
+  },
+  {
+    "category": "Archery",
+    "sub_category": "Archery Accessories (5)",
+    "url": "/Categories/List/Archery-Accessories"
+  },
+  {
+    "category": "Archery",
+    "sub_category": "Arrows (2)",
+    "url": "/Categories/List/Arrows"
+  },
+  {
+    "category": "Archery",
+    "sub_category": "Bolts (1)",
+    "url": "/Categories/List/Bolts"
+  },
+  {
+    "category": "Archery",
+    "sub_category": "Broadheads (21)",
+    "url": "/Categories/List/Broadheads"
+  },
+  {
+    "category": "Archery",
+    "sub_category": "Releases (1)",
+    "url": "/Categories/List/Releases"
+  },
+  {
+    "category": "Archery",
+    "sub_category": "Stabilizers (1)",
+    "url": "/Categories/List/Stabilizers"
+  },
+  {
+    "category": "Camping and Outdoor",
+    "sub_category": "Appliances and Electronics (6)",
+    "url": "/Categories/List/Appliances-and-Electronics"
+  },
+  {
+    "category": "Camping and Outdoor",
+    "sub_category": "Camping and Outdoor Accessories (3)",
+    "url": "/Categories/List/Camping-and-Outdoor-Accessories"
+  },
+  {
+    "category": "Camping and Outdoor",
+    "sub_category": "First Aid (5)",
+    "url": "/Categories/List/First-Aid"
+  },
+  {
+    "category": "Camping and Outdoor",
+    "sub_category": "Food and Survival (3)",
+    "url": "/Categories/List/Food-and-Survival"
+  },
+  {
+    "category": "Camping and Outdoor",
+    "sub_category": "Hydration and Water Storage (1)",
+    "url": "/Categories/List/Hydration-and-Water-Storage"
+  },
+  {
+    "category": "Camping and Outdoor",
+    "sub_category": "Shovels (1)",
+    "url": "/Categories/List/Shovels"
+  },
+  {
+    "category": "Camping and Outdoor",
+    "sub_category": "Sleeping Bags (2)",
+    "url": "/Categories/List/Sleeping-Bags"
+  },
+  {
+    "category": "Camping and Outdoor",
+    "sub_category": "Tents (2)",
+    "url": "/Categories/List/Tents"
+  },
+  {
+    "category": "Fishing",
+    "sub_category": "Fishing Accessories (2)",
+    "url": "/Categories/List/Fishing-Accessories"
+  },
+  {
+    "category": "Fishing",
+    "sub_category": "Fly Fishing (1)",
+    "url": "/Categories/List/Fly-Fishing"
+  },
+  {
+    "category": "Fishing",
+    "sub_category": "Knives and Tools (1)",
+    "url": "/Categories/List/Knives-and-Tools"
+  },
+  {
+    "category": "Fishing",
+    "sub_category": "Line, Braid (2)",
+    "url": "/Categories/List/Line-Braid"
+  },
+  {
+    "category": "Fishing",
+    "sub_category": "Lures, Hard Bait (2)",
+    "url": "/Categories/List/Lures-Hard-Bait"
+  },
+  {
+    "category": "Fishing",
+    "sub_category": "Reels, Baitcast (2)",
+    "url": "/Categories/List/Reels-Baitcast"
+  },
+  {
+    "category": "Fishing",
+    "sub_category": "Reels, Spinning (1)",
+    "url": "/Categories/List/Reels-Spinning"
+  },
+  {
+    "category": "Fishing",
+    "sub_category": "Rods (2)",
+    "url": "/Categories/List/Rods"
+  },
+  {
+    "category": "Fishing",
+    "sub_category": "Terminal (1)",
+    "url": "/Categories/List/Terminal"
+  },
+  {
+    "category": "Gifts and Novelty",
+    "sub_category": "Gifts (9)",
+    "url": "/Categories/List/Gifts"
+  },
+  {
+    "category": "Gifts and Novelty",
+    "sub_category": "Hardware (3)",
+    "url": "/Categories/List/Hardware"
+  },
+  {
+    "category": "Gifts and Novelty",
+    "sub_category": "Lighters (1)",
+    "url": "/Categories/List/Lighters"
+  },
+  {
+    "category": "Golf",
+    "sub_category": "Apparel (1)",
+    "url": "/Categories/List/Apparel"
+  },
+  {
+    "category": "Golf",
+    "sub_category": "Bags (52)",
+    "url": "/Categories/List/Bags"
+  },
+  {
+    "category": "Golf",
+    "sub_category": "Balls (15)",
+    "url": "/Categories/List/Balls"
+  },
+  {
+    "category": "Golf",
+    "sub_category": "Clubs (44)",
+    "url": "/Categories/List/Clubs"
+  },
+  {
+    "category": "Hunting",
+    "sub_category": "Accessories (2)",
+    "url": "/Categories/List/Accessories"
+  },
+  {
+    "category": "Hunting",
+    "sub_category": "Game Calls (6)",
+    "url": "/Categories/List/Game-Calls"
+  },
+  {
+    "category": "Hunting",
+    "sub_category": "Game Cameras (8)",
+    "url": "/Categories/List/Game-Cameras"
+  },
+  {
+    "category": "Hunting",
+    "sub_category": "Game Cameras and Accessories (1)",
+    "url": "/Categories/List/Game-Cameras-and-Accessories"
+  },
+  {
+    "category": "Hunting",
+    "sub_category": "Gun Cases (1)",
+    "url": "/Categories/List/Gun-Cases"
+  },
+  {
+    "category": "Hunting",
+    "sub_category": "Seats (1)",
+    "url": "/Categories/List/Seats"
+  },
+  {
+    "category": "Hunting",
+    "sub_category": "Targets (1)",
+    "url": "/Categories/List/Targets"
+  },
+  {
+    "category": "Knives and Tools",
+    "sub_category": "Knives - Fixed Blade (3)",
+    "url": "/Categories/List/Knives-Fixed-Blade"
+  },
+  {
+    "category": "Knives and Tools",
+    "sub_category": "Knives - Folding (8)",
+    "url": "/Categories/List/Knives-Folding"
+  },
+  {
+    "category": "Knives and Tools",
+    "sub_category": "Knives - Machetes (1)",
+    "url": "/Categories/List/Knives-Machetes"
+  },
+  {
+    "category": "Knives and Tools",
+    "sub_category": "Knives - Throwing (2)",
+    "url": "/Categories/List/Knives-Throwing"
+  },
+  {
+    "category": "Knives and Tools",
+    "sub_category": "Knives - Training (2)",
+    "url": "/Categories/List/Knives-Training"
+  },
+  {
+    "category": "Knives and Tools",
+    "sub_category": "Multi-Tools (3)",
+    "url": "/Categories/List/MultiTools"
+  },
+  {
+    "category": "Lights",
+    "sub_category": "Accessories - Lights (1)",
+    "url": "/Categories/List/Accessories-Lights"
+  },
+  {
+    "category": "Lights",
+    "sub_category": "Batteries and Chargers (5)",
+    "url": "/Categories/List/Batteries-and-Chargers"
+  },
+  {
+    "category": "Lights",
+    "sub_category": "Handheld Lights (4)",
+    "url": "/Categories/List/Handheld-Lights"
+  },
+  {
+    "category": "Marine and Water Sports",
+    "sub_category": "Batteries and Chargers (1)",
+    "url": "/Categories/List/Batteries-and-Chargers"
+  },
+  {
+    "category": "Marine and Water Sports",
+    "sub_category": "Lifevests (1)",
+    "url": "/Categories/List/Lifevests"
+  },
+  {
+    "category": "Marine and Water Sports",
+    "sub_category": "Marine Accessories (1)",
+    "url": "/Categories/List/Marine-Accessories"
+  },
+  {
+    "category": "Marine and Water Sports",
+    "sub_category": "Marine And Water Sports Accesso (1)",
+    "url": "/Categories/List/Marine-And-Water-Sports-Accesso"
+  },
+  {
+    "category": "Nightvision and Thermal",
+    "sub_category": "Riflescopes (22)",
+    "url": "/Categories/List/Riflescopes"
+  },
+  {
+    "category": "Optics and Sights",
+    "sub_category": "Binoculars and Monoculars (12)",
+    "url": "/Categories/List/Binoculars-and-Monoculars"
+  },
+  {
+    "category": "Optics and Sights",
+    "sub_category": "Laser (1)",
+    "url": "/Categories/List/Laser"
+  },
+  {
+    "category": "Optics and Sights",
+    "sub_category": "Mounts and Rings (2)",
+    "url": "/Categories/List/Mounts-and-Rings"
+  },
+  {
+    "category": "Optics and Sights",
+    "sub_category": "Optics and Sight Accessories (2)",
+    "url": "/Categories/List/Optics-and-Sight-Accessories"
+  },
+  {
+    "category": "Optics and Sights",
+    "sub_category": "Rangefinders (1)",
+    "url": "/Categories/List/Rangefinders"
+  },
+  {
+    "category": "Optics and Sights",
+    "sub_category": "Scopes (2)",
+    "url": "/Categories/List/Scopes"
+  },
+  {
+    "category": "Optics and Sights",
+    "sub_category": "Scopes, Long Gun (2)",
+    "url": "/Categories/List/Scopes-Long-Gun"
+  },
+  {
+    "category": "Optics and Sights",
+    "sub_category": "Sights (3)",
+    "url": "/Categories/List/Sights"
+  },
+  {
+    "category": "Optics and Sights",
+    "sub_category": "Sights, Pistol (6)",
+    "url": "/Categories/List/Sights-Pistol"
+  },
+  {
+    "category": "Optics and Sights",
+    "sub_category": "Sights, Reflex and Red Dot (1)",
+    "url": "/Categories/List/Sights-Reflex-and-Red-Dot"
+  },
+  {
+    "category": "Public Safety and LE",
+    "sub_category": "Body Armor and Protection (24)",
+    "url": "/Categories/List/Body-Armor-and-Protection"
+  },
+  {
+    "category": "Public Safety and LE",
+    "sub_category": "Hearing Protection (3)",
+    "url": "/Categories/List/Hearing-Protection"
+  },
+  {
+    "category": "Public Safety and LE",
+    "sub_category": "Pouches (1)",
+    "url": "/Categories/List/Pouches"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Accessories and Parts (14)",
+    "url": "/Categories/List/Accessories-and-Parts"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Airguns and Accessories (1)",
+    "url": "/Categories/List/Airguns-and-Accessories"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Barrels (1)",
+    "url": "/Categories/List/Barrels"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Bipods and Monopods (19)",
+    "url": "/Categories/List/Bipods-and-Monopods"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Choke Tubes (4)",
+    "url": "/Categories/List/Choke-Tubes"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Chronographs (2)",
+    "url": "/Categories/List/Chronographs"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Ear Protection (13)",
+    "url": "/Categories/List/Ear-Protection"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Gear Bags (4)",
+    "url": "/Categories/List/Gear-Bags"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Gear Bags and Soft Cases (13)",
+    "url": "/Categories/List/Gear-Bags-and-Soft-Cases"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Grips (8)",
+    "url": "/Categories/List/Grips"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Gun Care, Cleaning (12)",
+    "url": "/Categories/List/Gun-Care-Cleaning"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Gun Care, Tools (7)",
+    "url": "/Categories/List/Gun-Care-Tools"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Gun Cases, Hard (4)",
+    "url": "/Categories/List/Gun-Cases-Hard"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Gun Cases, Soft (5)",
+    "url": "/Categories/List/Gun-Cases-Soft"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Holster, Accessories (1)",
+    "url": "/Categories/List/Holster-Accessories"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Holsters, Ankle (1)",
+    "url": "/Categories/List/Holsters-Ankle"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Holsters, Drop Leg (3)",
+    "url": "/Categories/List/Holsters-Drop-Leg"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Holsters, Inside Waistband (1)",
+    "url": "/Categories/List/Holsters-Inside-Waistband"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Holsters, Outside Waistband (13)",
+    "url": "/Categories/List/Holsters-Outside-Waistband"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Mag Pouches and Dump Bags (1)",
+    "url": "/Categories/List/Mag-Pouches-and-Dump-Bags"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Magazines (33)",
+    "url": "/Categories/List/Magazines"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Rails, Mounts and Adaptors (16)",
+    "url": "/Categories/List/Rails-Mounts-and-Adaptors"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Reloading (78)",
+    "url": "/Categories/List/Reloading"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Safes and Accessories (2)",
+    "url": "/Categories/List/Safes-and-Accessories"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Shooting Rests and Benches (2)",
+    "url": "/Categories/List/Shooting-Rests-and-Benches"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Sights (5)",
+    "url": "/Categories/List/Sights"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Slings and Swivels (1)",
+    "url": "/Categories/List/Slings-and-Swivels"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Snap Caps (1)",
+    "url": "/Categories/List/Snap-Caps"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Stocks (4)",
+    "url": "/Categories/List/Stocks"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Targets (1)",
+    "url": "/Categories/List/Targets"
+  },
+  {
+    "category": "Shooting",
+    "sub_category": "Trap Throwers (1)",
+    "url": "/Categories/List/Trap-Throwers"
+  },
+  {
+    "category": "Sports",
+    "sub_category": "Softball (1)",
+    "url": "/Categories/List/Softball"
+  },
+  {
+    "category": "Sports",
+    "sub_category": "Sports Apparel (70)",
+    "url": "/Categories/List/Sports-Apparel"
   }
 ]
