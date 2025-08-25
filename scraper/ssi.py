@@ -67,7 +67,7 @@ def parse_html_ssi(content):
                 price = (
                     product["details"]
                     .find(class_="product-details-price")
-                    .h3.text.strip()
+                    .h3.text.strip().strip('$')
                 )
             except Exception as e:
                 print(

@@ -53,7 +53,7 @@ from services.wordpress import get_wp_to_db, sync_and_update_products
 # asyncio.create_task(get_wp_to_db(interval=300))  # Sync every 5 minutes 
 
 # Fetch Only Supplier Products
-asyncio.create_task(scrape_save_supplier_products(SheetName.KROLL.value))
+# asyncio.create_task(scrape_save_supplier_products(SheetName.KROLL.value))
 # asyncio.create_task(scrape_save_supplier_products(SheetName.SSI.value))
 
 # Start the new sync and update task
