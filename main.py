@@ -1,4 +1,3 @@
-import asyncio
 from datetime import timedelta
 import logging
 
@@ -6,6 +5,8 @@ from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
+
+from services.background_tasks import task_manager
 
 from auth import authenticate_user, create_access_token, get_current_active_user
 from database import create_tables, get_db
@@ -49,16 +50,23 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
-# Start WordPress sync in background
-# get_wp_to_db()
-asyncio.create_task(get_wp_to_db(interval=300))  # Sync every 5 minutes 
+from services.background_tasks import task_manager
 
-# Fetch Only Supplier Products
-asyncio.create_task(scrape_save_supplier_products(SheetName.KROLL.value))
-asyncio.create_task(scrape_save_supplier_products(SheetName.SSI.value))
+@app.on_event("startup")
+async def start_background_tasks():
+    # Start WordPress sync in background (every 5 minutes)
+    await task_manager.start_task(get_wp_to_db, 300)
+    
+    # Start supplier product scraping (every 30 minutes)
+    await task_manager.start_task(scrape_save_supplier_products, 1800, SheetName.KROLL.value)
+    await task_manager.start_task(scrape_save_supplier_products, 1800, SheetName.SSI.value)
+    
+    # Start sync and update task (every 5 minutes)
+    await task_manager.start_task(sync_and_update_products, 300)
 
-# Start the new sync and update task
-asyncio.create_task(sync_and_update_products(interval=300)) # Sync every 5 minutes
+@app.on_event("shutdown")
+async def stop_background_tasks():
+    await task_manager.stop_all_tasks()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
