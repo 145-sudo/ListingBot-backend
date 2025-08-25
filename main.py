@@ -54,15 +54,13 @@ from services.background_tasks import task_manager
 
 @app.on_event("startup")
 async def start_background_tasks():
-    # Start WordPress sync in background (every 5 minutes)
-    await task_manager.start_task(get_wp_to_db, 300)
+    # Start WordPress sync tasks in background (every 15 minutes)
+    await task_manager.start_task(get_wp_to_db, 900)  # 15 minutes
+    await task_manager.start_task(sync_and_update_products, 900)  # 15 minutes
     
     # Start supplier product scraping (every 30 minutes)
     await task_manager.start_task(scrape_save_supplier_products, 1800, SheetName.KROLL.value)
     await task_manager.start_task(scrape_save_supplier_products, 1800, SheetName.SSI.value)
-    
-    # Start sync and update task (every 5 minutes)
-    await task_manager.start_task(sync_and_update_products, 300)
 
 @app.on_event("shutdown")
 async def stop_background_tasks():
