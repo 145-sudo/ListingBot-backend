@@ -1,20 +1,18 @@
-from datetime import timedelta
-import logging
 import asyncio
-import uvicorn
+import logging
+from datetime import timedelta
 
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi_utils.tasks import repeat_every
 from sqlalchemy.orm import Session
 
 from auth import authenticate_user, create_access_token, get_current_active_user
 from database import create_tables, get_db
 from models.user import User
-from routers import wp, kroll, ssi, rothco
-# from scheduler import app as app_rocketry
-# from fastapi_utils.session import FastAPISessionMaker
-from fastapi_utils.tasks import repeat_every
+from routers import kroll, rothco, ssi, wp
+from scheduler import run_tasks
 from seeder import seed_user
 
 # Create database tables
@@ -68,7 +66,6 @@ app.add_middleware(
 #     # await asyncio.wait([scheduler, api])
 #     await asyncio.wait([api])
 
-from scheduler import run_tasks
 
 @app.on_event("startup")
 @repeat_every(wait_first=15, seconds=60 * 60)  # 1 hour
@@ -76,8 +73,6 @@ async def schedules() -> None:
     logging.info("Tasks started")
     await asyncio.to_thread(run_tasks)
     logging.info("Tasks Finished")
-    # with sessionmaker.context_session() as db:
-    #     remove_expired_tokens(db=db)
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -112,6 +107,3 @@ app.include_router(wp.router, tags=["WordPress"])
 app.include_router(kroll.router, tags=["Kroll"])
 app.include_router(ssi.router, tags=["Ssi"])
 app.include_router(rothco.router, tags=["Rothco"])
-
-# if __name__ == "__main__":
-#     asyncio.run(main())
