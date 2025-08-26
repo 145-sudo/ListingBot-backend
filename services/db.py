@@ -62,7 +62,9 @@ def insert_update_SSI(data: DataFrame):
 
             if existing_product:
                 updated += 1 
-                existing_product.price = row.get(get_attribute(SheetName.SSI.value, SheetColumns.PRICE))
+                price_val = row.get(row.get(get_attribute(SheetName.SSI.value, SheetColumns.PRICE)))
+                if price_val:
+                    existing_product.price = price_val
                 stock_val = row.get(get_attribute(SheetName.SSI.value, SheetColumns.STOCK))
                 existing_product.stock = int(stock_val) if stock_val not in [None, ''] else 0
             else:
