@@ -12,7 +12,9 @@ from auth import authenticate_user, create_access_token, get_current_active_user
 from database import create_tables, get_db
 from models.user import User
 from routers import wp, kroll, ssi, rothco
-from scheduler import app as app_rocketry
+# from scheduler import app as app_rocketry
+# from fastapi_utils.session import FastAPISessionMaker
+from fastapi_utils.tasks import repeat_every
 from seeder import seed_user
 
 # Create database tables
@@ -48,22 +50,35 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
-from services.background_tasks import task_manager
+# from services.background_tasks import task_manager
 
-class Server(uvicorn.Server):
-    """Customized uvicorn.Server to handle Rocketry shutdown"""
-    def handle_exit(self, sig: int, frame) -> None:
-        app_rocketry.session.shut_down()
-        return super().handle_exit(sig, frame)
+# class Server(uvicorn.Server):
+#     """Customized uvicorn.Server to handle Rocketry shutdown"""
+#     def handle_exit(self, sig: int, frame) -> None:
+#         # app_rocketry.session.shut_down()
+#         return super().handle_exit(sig, frame)
 
-async def main():
-    """Run scheduler and the API"""
-    server = Server(config=uvicorn.Config(app, workers=1, loop="asyncio"))
+# async def main():
+#     """Run scheduler and the API"""
+#     server = Server(config=uvicorn.Config(app, workers=1, loop="asyncio"))
 
-    api = asyncio.create_task(server.serve())
-    scheduler = asyncio.create_task(app_rocketry.serve())
+#     api = asyncio.create_task(server.serve())
+#     # scheduler = asyncio.create_task(app_rocketry.serve())
 
-    await asyncio.wait([scheduler, api])
+#     # await asyncio.wait([scheduler, api])
+#     await asyncio.wait([api])
+
+from scheduler import run_tasks
+
+@app.on_event("startup")
+@repeat_every(wait_first=15, seconds=60 * 60)  # 1 hour
+async def schedules() -> None:
+    logging.info("Tasks started")
+    await asyncio.to_thread(run_tasks)
+    logging.info("Tasks Finished")
+    # with sessionmaker.context_session() as db:
+    #     remove_expired_tokens(db=db)
+
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
@@ -98,5 +113,5 @@ app.include_router(kroll.router, tags=["Kroll"])
 app.include_router(ssi.router, tags=["Ssi"])
 app.include_router(rothco.router, tags=["Rothco"])
 
-if __name__ == "__main__":
-    asyncio.run(main())
+# if __name__ == "__main__":
+#     asyncio.run(main())

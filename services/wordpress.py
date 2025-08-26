@@ -169,8 +169,8 @@ def get_store_products() -> pd.DataFrame:
 
 
 # Create a background task for periodic sync
-async def get_wp_to_db(interval: int = 300):
-    while True:
+async def get_wp_to_db():
+    # while True:
         try:
             # import pandas as pd
 
@@ -263,7 +263,7 @@ async def get_wp_to_db(interval: int = 300):
             raise HTTPException(
                 status_code=500, detail=f"Error syncing WordPress products: {str(e)}"
             )
-        await asyncio.sleep(interval)
+        # await asyncio.sleep(interval)
 
 
 def supplier_product_to_wp_product(
