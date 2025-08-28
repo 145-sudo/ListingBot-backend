@@ -33,9 +33,9 @@ async def ssi_sync():
 
 async def tasks():
     await asyncio.gather(
-        # wordpress_sync(),
-        # wordpress_update(),
-        # kroll_sync(),
+        wordpress_sync(),
+        wordpress_update(),
+        kroll_sync(),
         ssi_sync(),
     )
 
