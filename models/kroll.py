@@ -9,7 +9,7 @@ class KrollProduct(Base):
     sku = Column(String, index=True)
     name = Column(String)
     description = Column(String, nullable=True)
-    price = Column(Float, nullable=False)
+    price = Column(Float, nullable=True)
     stock = Column(Integer, default=0, nullable=False)
     link = Column(String, nullable=True)
     category = Column(String, nullable=True)

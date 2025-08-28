@@ -1,0 +1,307 @@
+[
+  {
+    "category": "BDU Pants",
+    "sub_category": "Clothing/Pants/BDU Pants",
+    "url": "https://www.rothco.com/category/rothco-bdu-pants"
+  },
+  {
+    "category": "Tactical Pants",
+    "sub_category": "Clothing/Pants/Tactical Pants",
+    "url": "https://www.rothco.com/category/rothco-tactical-pants"
+  },
+  {
+    "category": "EMT Pants",
+    "sub_category": "Clothing/Pants/EMT Pants",
+    "url": "https://www.rothco.com/category/rothco-emt-ems-pants"
+  },
+  {
+    "category": "Shorts",
+    "sub_category": "Clothing/Pants/Shorts",
+    "url": "https://www.rothco.com/category/rothco-shorts"
+  },
+  {
+    "category": "T-Shirts",
+    "sub_category": "Clothing/Shirts/T-Shirts",
+    "url": "https://www.rothco.com/category/rothco-t-shirts"
+  },
+  {
+    "category": "Tactical Shirts",
+    "sub_category": "Clothing/Shirts/Tactical Shirts",
+    "url": "https://www.rothco.com/category/rothco-tactical-shirts"
+  },
+  {
+    "category": "Polos",
+    "sub_category": "Clothing/Shirts/Polos",
+    "url": "https://www.rothco.com/category/rothco-polo-shirts"
+  },
+  {
+    "category": "Flannels & Sweaters",
+    "sub_category": "Clothing/Shirts/Flannels & Sweaters",
+    "url": "https://www.rothco.com/category/flannel-shirts"
+  },
+  {
+    "category": "Hoodies",
+    "sub_category": "Clothing/Shirts/Hoodies",
+    "url": "https://www.rothco.com/category/sweatshirts-hoodies"
+  },
+  {
+    "category": "Layering Systems & Underwear",
+    "sub_category": "Clothing/Layering Systems & Underwear",
+    "url": "https://www.rothco.com/category/rothco-underwear-layering-systems"
+  },
+  {
+    "category": "P/T Bottoms",
+    "sub_category": "Clothing/Performance & Training/P/T Bottoms",
+    "url": "https://www.rothco.com/category/rothco-pt-bottoms"
+  },
+  {
+    "category": "P/T Tops",
+    "sub_category": "Clothing/Performance & Training/P/T Tops",
+    "url": "https://www.rothco.com/category/rothco-physical-training-PT-Shirts"
+  },
+  {
+    "category": "Military Jackets",
+    "sub_category": "Outerwear/Jackets/Military Jackets",
+    "url": "https://www.rothco.com/category/rothco-m65-field-jacket"
+  },
+  {
+    "category": "Tactical Jackets",
+    "sub_category": "Outerwear/Jackets/Tactical Jackets",
+    "url": "https://www.rothco.com/category/rothco-uniform-jacket"
+  },
+  {
+    "category": "Concealed Carry Jackets",
+    "sub_category": "Outerwear/Jackets/Concealed Carry Jackets",
+    "url": "https://www.rothco.com/category/rothco-concealed-carry-jacket"
+  },
+  {
+    "category": "Rainwear",
+    "sub_category": "Outerwear/Rainwear",
+    "url": "https://www.rothco.com/category/rainwear"
+  },
+  {
+    "category": "Flightsuits & Coveralls",
+    "sub_category": "Outerwear/Flightsuits & Coveralls",
+    "url": "https://www.rothco.com/category/military-and-pilot-flight-suits"
+  },
+  {
+    "category": "Vests",
+    "sub_category": "Outerwear/Vests",
+    "url": "https://www.rothco.com/category/rothco-vests"
+  },
+  {
+    "category": "Tactical Boots",
+    "sub_category": "Footwear/Tactical Boots",
+    "url": "https://www.rothco.com/category/rothco-tactical-boots"
+  },
+  {
+    "category": "Uniform Shoes",
+    "sub_category": "Footwear/Uniform Shoes",
+    "url": "https://www.rothco.com/category/rothco-shoes"
+  },
+  {
+    "category": "Work & Hiking Boots",
+    "sub_category": "Footwear/Work & Hiking Boots",
+    "url": "https://www.rothco.com/category/rothco-hiking-boots"
+  },
+  {
+    "category": "Concealed Carry Packs",
+    "sub_category": "Bags/Backpacks/Concealed Carry Packs",
+    "url": "https://www.rothco.com/category/concealed-carry-packs"
+  },
+  {
+    "category": "Tactical Packs",
+    "sub_category": "Bags/Backpacks/Tactical Packs",
+    "url": "https://www.rothco.com/category/rothco-tactical-pack"
+  },
+  {
+    "category": "Cargo & Duffle Bags",
+    "sub_category": "Bags/Cargo & Duffle Bags",
+    "url": "https://www.rothco.com/category/military-duffle-bags-cargo-bags"
+  },
+  {
+    "category": "Messenger Bags & Shoulder Bags",
+    "sub_category": "Bags/Messenger Bags & Shoulder Bags",
+    "url": "https://www.rothco.com/category/rothco-messenger-bags"
+  },
+  {
+    "category": "Gear Bags",
+    "sub_category": "Bags/Gear Bags",
+    "url": "https://www.rothco.com/category/rothco-military-gear-bags"
+  },
+  {
+    "category": "Medical Bags",
+    "sub_category": "Bags/Medical Bags",
+    "url": "https://www.rothco.com/category/rothco-medical-bags"
+  },
+  {
+    "category": "Accessory Bags",
+    "sub_category": "Bags/Accessory Bags",
+    "url": "https://www.rothco.com/category/accessory-bags"
+  },
+  {
+    "category": "Plate Carrier Vests",
+    "sub_category": "Gear/Tactical Gear/Plate Carrier Vests",
+    "url": "https://www.rothco.com/category/plate-carrier-vests"
+  },
+  {
+    "category": "Military & Tactical Helmets",
+    "sub_category": "Gear/Tactical Gear/Military & Tactical Helmets",
+    "url": "https://www.rothco.com/category/rothco-military-tactical-helmets"
+  },
+  {
+    "category": "Concealed Carry",
+    "sub_category": "Gear/Tactical Gear/Concealed Carry",
+    "url": "https://www.rothco.com/category/rothco-concealed-carry-accessories"
+  },
+  {
+    "category": "MOLLE Gear",
+    "sub_category": "Gear/Tactical Gear/MOLLE Gear",
+    "url": "https://www.rothco.com/category/rothco-molle-gear"
+  },
+  {
+    "category": "Tactical Accessories",
+    "sub_category": "Gear/Tactical Gear/Tactical Accessories",
+    "url": "https://www.rothco.com/category/rothco-tactical-accessories"
+  },
+  {
+    "category": "Public Safety",
+    "sub_category": "Gear/Tactical Gear/Public Safety",
+    "url": "https://www.rothco.com/category/rothco-public-safety-and-tactical-gear"
+  },
+  {
+    "category": "First Aid & Safety",
+    "sub_category": "Gear/Outdoor & Survival/First Aid & Safety",
+    "url": "https://www.rothco.com/category/rothco-first-aid-kits-snake-bite-kits"
+  },
+  {
+    "category": "Tools & Equipment",
+    "sub_category": "Gear/Outdoor & Survival/Tools & Equipment",
+    "url": "https://www.rothco.com/category/rothco-tools-equipment"
+  },
+  {
+    "category": "Campsite",
+    "sub_category": "Gear/Outdoor & Survival/Campsite",
+    "url": "https://www.rothco.com/category/rothco-camping-survival-accessories"
+  },
+  {
+    "category": "Food & Water",
+    "sub_category": "Gear/Outdoor & Survival/Food & Water",
+    "url": "https://www.rothco.com/category/rothco-emergency-food-and-water"
+  },
+  {
+    "category": "Knives",
+    "sub_category": "Gear/Outdoor & Survival/Knives",
+    "url": "https://www.rothco.com/category/rothco-military-knives"
+  },
+  {
+    "category": "Lighting",
+    "sub_category": "Gear/Outdoor & Survival/Lighting",
+    "url": "https://www.rothco.com/category/rothco-emergency-lighting-and-flashlights"
+  },
+  {
+    "category": "Paracord & Rappelling Gear",
+    "sub_category": "Gear/Outdoor & Survival/Paracord & Rappelling Gear",
+    "url": "https://www.rothco.com/category/rothco-paracord"
+  },
+  {
+    "category": "Holsters & Slings",
+    "sub_category": "Gear/Shooting Supplies/Holsters & Slings",
+    "url": "https://www.rothco.com/category/rothco-holsters"
+  },
+  {
+    "category": "Shooting Safety & Accessories",
+    "sub_category": "Gear/Shooting Supplies/Shooting Safety & Accessories",
+    "url": "https://www.rothco.com/category/rothco-shooting-accessories"
+  },
+  {
+    "category": "Face Paints",
+    "sub_category": "Gear/Camouflaging/Face Paints",
+    "url": "https://www.rothco.com/category/rothco-camo-face-paint"
+  },
+  {
+    "category": "Ghillie Suits",
+    "sub_category": "Gear/Camouflaging/Ghillie Suits",
+    "url": "https://www.rothco.com/category/rothco-ghillie-suits"
+  },
+  {
+    "category": "Netting",
+    "sub_category": "Gear/Camouflaging/Netting",
+    "url": "https://www.rothco.com/category/rothco-camouflage-netting"
+  },
+  {
+    "category": "Bandanas & Neckware",
+    "sub_category": "Accessories/Headwear/Bandanas & Neckware",
+    "url": "https://www.rothco.com/category/rothco-bandanas-and-head-wraps"
+  },
+  {
+    "category": "Uniform Hats",
+    "sub_category": "Accessories/Headwear/Uniform Hats",
+    "url": "https://www.rothco.com/category/rothco-military-headwear"
+  },
+  {
+    "category": "Boonie Hats",
+    "sub_category": "Accessories/Headwear/Boonie Hats",
+    "url": "https://www.rothco.com/category/rothco-boonie-hats"
+  },
+  {
+    "category": "Caps",
+    "sub_category": "Accessories/Headwear/Caps",
+    "url": "https://www.rothco.com/category/rothco-military-street-caps"
+  },
+  {
+    "category": "Winter Hats",
+    "sub_category": "Accessories/Headwear/Winter Hats",
+    "url": "https://www.rothco.com/category/winter-hats"
+  },
+  {
+    "category": "Tactical Gloves",
+    "sub_category": "Accessories/Gloves/Tactical Gloves",
+    "url": "https://www.rothco.com/category/duty-tactical-gloves"
+  },
+  {
+    "category": "Winter Gloves",
+    "sub_category": "Accessories/Gloves/Winter Gloves",
+    "url": "https://www.rothco.com/category/rothco-cold-weather-gloves"
+  },
+  {
+    "category": "Socks",
+    "sub_category": "Accessories/Socks",
+    "url": "https://www.rothco.com/category/rothco-socks"
+  },
+  {
+    "category": "Riggers Belt",
+    "sub_category": "Accessories/Belts/Riggers Belt",
+    "url": "https://www.rothco.com/category/bdu-and-rigger-belt"
+  },
+  {
+    "category": "Belt Accessories",
+    "sub_category": "Accessories/Belts/Belt Accessories",
+    "url": "https://www.rothco.com/category/belt-accessories"
+  },
+  {
+    "category": "Duty Belts",
+    "sub_category": "Accessories/Belts/Duty Belts",
+    "url": "https://www.rothco.com/category/duty-belt"
+  },
+  {
+    "category": "Web & Leather Belts",
+    "sub_category": "Accessories/Belts/Web & Leather Belts",
+    "url": "https://www.rothco.com/category/rothco-web-belt"
+  },
+  {
+    "category": "Patches & Insignia",
+    "sub_category": "Accessories/Patches & Insignia",
+    "url": "https://www.rothco.com/category/rothco-patches-and-insignia"
+  },
+  {
+    "category": "Footwear Accessories",
+    "sub_category": "Accessories/Footwear Accessories",
+    "url": "https://www.rothco.com/category/rothco-footwear-accessories"
+  },
+  {
+    "category": "Novelty & Gifts",
+    "sub_category": "Accessories/Novelty & Gifts",
+    "url": "https://www.rothco.com/category/novelty-and-gifts"
+  }
+]
