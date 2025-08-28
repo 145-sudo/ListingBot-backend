@@ -355,9 +355,9 @@ def sync_to_woocommerce(
     logging.debug(f"WP product response: {products}")
 
     create_data = {
-        "name": f"demo-{name}",
+        "name": f"bot-{name}",
         "type": "simple",
-        "sku": f"demo-{sku}",
+        "sku": f"bot-{sku}",
         # "sku": sku,
         "regular_price": str(price),
         "stock_quantity": stock,
